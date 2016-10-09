@@ -10,21 +10,22 @@ class DashboardIndex extends Component {
   }
 
   renderRows() {
+    console.log('user data', this.props.sheets);
     return this.props.sheets.map(data => {
       // below constants convert date object into simple mm/dd/yyyy format
-      const cts = new Date(data.date_worked);
+      const cts = new Date(data.dateWorked);
       const cdate = (cts.getMonth() + 1) + '/' + cts.getDate() + '/' + cts.getFullYear();
 
       return (
-        <tr key={data.id}>
+        <tr key={data._id}>
           <td>
-            <Link to={'user/' + data.id}>
+            <Link to={'user/' + data.name}>
               <strong>{data.name}</strong>
             </Link>
           </td>
           <td>{cdate}</td>
-          <td>{data.hours_worked}</td>
-          <td>{data.work_type}</td>
+          <td>{data.hoursWorked}</td>
+          <td>{data.workType}</td>
         </tr>
       );
     });

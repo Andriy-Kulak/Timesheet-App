@@ -19,10 +19,10 @@ export function createTimesheet(props) {
   };
 }
 
-export function fetchUserData(id) {
-  console.log('hittin it', id);
-  const request = axios.get(`${ROOT_URL}${id}`);
-
+export function fetchUserData(name) {
+  console.log('hittin it name', name);
+  const request = axios.get(`${ROOT_URL}${name}`);
+  console.log('hittin it', request);
   return {
     type: FETCH_USER_DATA,
     payload: request

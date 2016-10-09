@@ -1,12 +1,30 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {fetchUserData} from '../actions/index';
-import {Link} from 'react-router';
+import {Table, Grid, Col, Row} from 'react-bootstrap';
 
 class UserData extends Component {
 
   componentWillMount() {
-    this.props.fetchUserData(this.props.params.id);
+    this.props.fetchUserData(this.props.params.name);
+  }
+
+
+  renderRows() {
+    console.log('user data', this.props.time);
+    return this.props.time.map(data => {
+      // below constants convert date object into simple mm/dd/yyyy format
+      const cts = new Date(data.dateWorked);
+      const cdate = (cts.getMonth() + 1) + '/' + cts.getDate() + '/' + cts.getFullYear();
+
+      return (
+        <tr key={data._id}>
+          <td>{cdate}</td>
+          <td>{data.hoursWorked}</td>
+          <td>{data.workType}</td>
+        </tr>
+      );
+    });
   }
 
   render() {
@@ -17,13 +35,25 @@ class UserData extends Component {
     }
 
     return (
-      <div>
-        <Link to="/">Back To Index</Link>
-        <h3>Name: {time[0].name}</h3>
-        <h6>Date Worked: {time[0].date_worked}</h6>
-        <p>Type: {time[0].work_type}</p>
-        <p>Hours Worked: {time[0].hours_worked}</p>
-      </div>
+      <Grid>
+        <Row>
+          <Col mdOffset={2} md={8}>
+            <h3>Timesheet for: {this.props.time[0].name}</h3>
+            <Table responsive bordered condensed hover>
+              <thead>
+                <tr>
+                  <th>Date Worked</th>
+                  <th>Hours Worked</th>
+                  <th>Work Type</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.renderRows()}
+              </tbody>
+            </Table>
+          </Col>
+        </Row>
+      </Grid>
     );
   }
 }

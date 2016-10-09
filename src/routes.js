@@ -11,7 +11,7 @@ export default (
   <Route path="/" component={App}>
     <IndexRoute component={DashboardIndex}/>
     <Route path="timesheet/new" component={NewTimesheet}/>
-    <Route path="user/:id" component={UserData}/>
+    <Route path="user/:name" component={UserData}/>
     <Route path="signup" component={SignUp}/>
   </Route>
 );

@@ -17,7 +17,7 @@ class NewTimesheet extends Component {
   }
 
   render() {
-    const {fields: {name, date_worked, hours_worked, work_type}, handleSubmit} = this.props;
+    const {fields: {name, dateWorked, hoursWorked, workType}, handleSubmit} = this.props;
 
     return (
       <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
@@ -31,27 +31,27 @@ class NewTimesheet extends Component {
           </div>
         </div>
 
-        <div className={`form-group ${date_worked.touched && date_worked.invalid ? 'has-danger' : ''}`}>
+        <div className={`form-group ${dateWorked.touched && dateWorked.invalid ? 'has-danger' : ''}`}>
           <label>Date Worked</label>
-          <input type="date" className="form-control" {...date_worked}/>
+          <input type="date" className="form-control" {...dateWorked}/>
           <div className="text-help">
-            {date_worked.touched ? date_worked.error : ''}
+            {dateWorked.touched ? dateWorked.error : ''}
           </div>
         </div>
 
-        <div className={`form-group ${hours_worked.touched && hours_worked.invalid ? 'has-danger' : ''}`}>
+        <div className={`form-group ${hoursWorked.touched && hoursWorked.invalid ? 'has-danger' : ''}`}>
           <label>Hours Worked</label>
-          <input type="number" className="form-control" {...hours_worked}/>
+          <input type="number" className="form-control" {...hoursWorked}/>
           <div className="text-help">
-            {hours_worked.touched ? hours_worked.error : ''}
+            {hoursWorked.touched ? hoursWorked.error : ''}
           </div>
         </div>
 
-        <div className={`form-group ${work_type.touched && work_type.invalid ? 'has-danger' : ''}`}>
+        <div className={`form-group ${workType.touched && workType.invalid ? 'has-danger' : ''}`}>
           <label>Work Type</label>
-          <input type="text" className="form-control" {...work_type}/>
+          <input type="text" className="form-control" {...workType}/>
           <div className="text-help">
-            {work_type.touched ? work_type.error : ''}
+            {workType.touched ? workType.error : ''}
           </div>
         </div>
 
@@ -68,14 +68,14 @@ function validate(values) {
   if (!values.name) {
     errors.name = 'Enter a proper name';
   }
-  if (!values.date_worked) {
-    errors.date_worked = 'Enter proper Date';
+  if (!values.dateWorked) {
+    errors.dateWorked = 'Enter proper Date';
   }
-  if (!values.hours_worked) {
-    errors.hours_worked = 'Enter a proper number';
+  if (!values.hoursWorked) {
+    errors.hoursWorked = 'Enter a proper number';
   }
-  if (!values.work_type) {
-    errors.work_type = 'Enter proper work type';
+  if (!values.workType) {
+    errors.workType = 'Enter proper work type';
   }
 
   return errors;
@@ -85,13 +85,12 @@ NewTimesheet.propTypes = {
   createTimesheet: PropTypes.func,
   fields: PropTypes.object,
   handleSubmit: PropTypes.func
-
 };
 
 // connect: first argument is mapStateToProps, 2nd is mapDispatchToProps
 // reduxForm: 1st is form config, 2nd is mapStateToProps, 3rd is mapDispatchToProps
 export default reduxForm({
   form: 'TimesheetNewForm',
-  fields: ['name', 'hours_worked', 'date_worked', 'work_type'],
+  fields: ['name', 'hoursWorked', 'dateWorked', 'workType'],
   validate
 }, null, {createTimesheet})(NewTimesheet);
