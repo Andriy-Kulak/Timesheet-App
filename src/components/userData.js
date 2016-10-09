@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {fetchUserData} from '../actions/index';
+import {fetchUserData} from '../actions/time.actions';
 import {Table, Grid, Col, Row} from 'react-bootstrap';
 
 class UserData extends Component {
@@ -8,7 +8,6 @@ class UserData extends Component {
   componentWillMount() {
     this.props.fetchUserData(this.props.params.name);
   }
-
 
   renderRows() {
     console.log('user data', this.props.time);

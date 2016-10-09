@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {reduxForm} from 'redux-form';
-import {createTimesheet} from '../actions/index';
+import {createTimesheet} from '../actions/time.actions';
 import {Link} from 'react-router';
 
 class NewTimesheet extends Component {

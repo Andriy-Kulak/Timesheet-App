@@ -1,4 +1,4 @@
-import {FETCH_TIMESHEET, FETCH_USER_DATA} from '../constants/time';
+import {FETCH_TIMESHEET, FETCH_USER_DATA} from '../constants/time.constants';
 const INITIAL_STATE = {all: [], user: null};
 
 export default function (state = INITIAL_STATE, action) {

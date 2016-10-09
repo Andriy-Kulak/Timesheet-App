@@ -27,11 +27,14 @@ class NavBar extends Component {
             <LinkContainer to="timesheet/new">
               <NavItem className="nav-link" eventKey={2}>Submit Time</NavItem>
             </LinkContainer>
-            <LinkContainer to="user/2">
+            <LinkContainer to="user/Andriy">
               <NavItem className="nav-link" eventKey={3}>Andriy Time</NavItem>
             </LinkContainer>
-            <LinkContainer to="signup">
-              <NavItem className="nav-link" eventKey={3}>Signup</NavItem>
+            <LinkContainer to="/signin">
+              <NavItem className="nav-link" EventKey={1}>Sign In</NavItem>
+            </LinkContainer>
+            <LinkContainer to="/signup">
+              <NavItem className="nav-link" EventKey={2}>Sign Up</NavItem>
             </LinkContainer>
           </Nav>
         </Navbar.Collapse>

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {FETCH_TIMESHEET, CREATE_TIMESHEET, FETCH_USER_DATA, DELETE_TIMESHEET, ROOT_URL} from '../constants/time';
+import {FETCH_TIMESHEET, CREATE_TIMESHEET, FETCH_USER_DATA, DELETE_TIMESHEET, ROOT_URL} from '../constants/time.constants';
 
 export function fetchTimesheetData() {
   const request = axios.get(ROOT_URL);

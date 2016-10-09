@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {fetchTimesheetData} from '../actions/index';
+import {fetchTimesheetData} from '../actions/time.actions';
 import {Link} from 'react-router';
 import {Table, Grid, Col, Row} from 'react-bootstrap';
 
