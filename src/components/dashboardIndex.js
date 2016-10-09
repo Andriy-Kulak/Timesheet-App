@@ -2,40 +2,56 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {fetchTimesheetData} from '../actions/index';
 import {Link} from 'react-router';
+import {Table, Grid, Col, Row} from 'react-bootstrap';
 
 class DashboardIndex extends Component {
   componentWillMount() {
     this.props.fetchTimesheetData();
   }
 
-  renderData() {
+  renderRows() {
     return this.props.sheets.map(data => {
+      // below constants convert date object into simple mm/dd/yyyy format
+      const cts = new Date(data.date_worked);
+      const cdate = (cts.getMonth() + 1) + '/' + cts.getDate() + '/' + cts.getFullYear();
+
       return (
-        <li className="list-group-item" key={data.id}>
-          <Link to={'user/' + data.id}>
-            <p>Name:<strong>{data.name}</strong></p>
-          </Link>
-          <p>Date Worked: {data.date_worked}</p>
-          <p>Hours Worked: {data.hours_worked}</p>
-          <p>Work Type: {data.work_type}</p>
-        </li>
+        <tr key={data.id}>
+          <td>
+            <Link to={'user/' + data.id}>
+              <strong>{data.name}</strong>
+            </Link>
+          </td>
+          <td>{cdate}</td>
+          <td>{data.hours_worked}</td>
+          <td>{data.work_type}</td>
+        </tr>
       );
     });
   }
 
   render() {
     return (
-      <div>
-        <div className="text-xs-right">
-          <Link to="/timesheet/new" className="btn btn-primary">
-            Submit Time
-          </Link>
-        </div>
-        <h3>Timesheet</h3>
-        <ul className="list-group">
-          {this.renderData()}
-        </ul>
-      </div>
+      <Grid>
+        <Row>
+          <Col mdOffset={2} md={8}>
+            <h3>Timesheet</h3>
+            <Table responsive bordered condensed hover>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Date Worked</th>
+                  <th>Hours Worked</th>
+                  <th>Work Type</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.renderRows()}
+              </tbody>
+            </Table>
+          </Col>
+        </Row>
+      </Grid>
     );
   }
 }

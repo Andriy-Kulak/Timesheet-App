@@ -17,7 +17,7 @@ class NewTimesheet extends Component {
   }
 
   render() {
-    const {fields: {name, date_worked, hours_worked, work_type }, handleSubmit} = this.props;
+    const {fields: {name, date_worked, hours_worked, work_type}, handleSubmit} = this.props;
 
     return (
       <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>

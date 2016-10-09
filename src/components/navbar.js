@@ -30,6 +30,9 @@ class NavBar extends Component {
             <LinkContainer to="user/2">
               <NavItem className="nav-link" eventKey={3}>Andriy Time</NavItem>
             </LinkContainer>
+            <LinkContainer to="signup">
+              <NavItem className="nav-link" eventKey={3}>Signup</NavItem>
+            </LinkContainer>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
@@ -38,19 +41,3 @@ class NavBar extends Component {
 }
 
 export default NavBar;
-// ReactDOM.render(navInstance, mountNode);
-
-      // <Navbar>
-      //   <Navbar.Header>
-      //     <Navbar.Brand>
-      //       <a href="#">React-Bootstrap</a>
-      //     </Navbar.Brand>
-      //     <Navbar.Toggle/>
-      //   </Navbar.Header>
-      //   <Navbar.Collapse>
-      //     <Nav>
-      //       <NavItem eventKey={1} href="/">Home</NavItem>
-      //       <NavItem eventKey={2} href="timesheet/new">New Timesheet</NavItem>
-      //     </Nav>
-      //   </Navbar.Collapse>
-      // </Navbar>
