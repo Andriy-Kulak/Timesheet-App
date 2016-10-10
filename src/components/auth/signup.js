@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import {reduxForm} from 'redux-form';
 import * as actions from '../../actions/auth.actions';
 
@@ -6,6 +6,7 @@ class Signup extends Component {
   handleFormSubmit(formProps) {
 		// Call action creator to sign up user!
     this.props.signupUser(formProps);
+    console.log('signup user component', formProps);
   }
 
   renderAlert() {
@@ -68,8 +69,12 @@ function validate(formProps) {
 
 	// TODOx: iterate over with forEach loop for remaining values to prevent repetitive code as well as the form itself
 
-  if (!formProps.email) {errors.email = 'Please enter an email';}
-  if (!formProps.password) {errors.password = 'Please enter a password';}
+  if (!formProps.email) {
+    errors.email = 'Please enter an email';
+  }
+  if (!formProps.password) {
+    errors.password = 'Please enter a password';
+  }
 
   if (formProps.password !== formProps.passwordConfirm) {
     errors.passwordConfirm = 'Passwords must match';
@@ -77,6 +82,13 @@ function validate(formProps) {
 
   return errors;
 }
+
+Signup.propTypes = {
+  signupUser: PropTypes.func,
+  errorMessage: PropTypes.object,
+  handleSubmit: PropTypes.func,
+  fields: PropTypes.object
+};
 
 function mapStateToProps(state) {
   return {errorMessage: state.auth.error};

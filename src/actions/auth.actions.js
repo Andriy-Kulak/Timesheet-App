@@ -1,12 +1,11 @@
 import axios from 'axios';
 import {browserHistory} from 'react-router';
-import {AUTH_USER, UNAUTH_USER, AUTH_ERROR} from '../constants/auth.constants';
-import {ROOT_URL} from '../constants/time.constants';
+import {AUTH_USER, UNAUTH_USER, AUTH_ERROR, ROOT_AUTH_URL} from '../constants/auth.constants';
 
 export function signinUser({email, password}) {
   return function (dispatch) {
 		// Submit email/password to the server
-    axios.post(`${ROOT_URL}/signin`, {email, password})
+    axios.post(`${ROOT_AUTH_URL}signin`, {email, password})
     .then(response => {
       // If request is good...
       console.log('PASS');
@@ -30,9 +29,10 @@ export function signinUser({email, password}) {
 	// TODOx: put all repetitive signup and signin code in here
 
 export function signupUser({firstName, lastName, companyName, fbHandle, email, password}) {
+  console.log('action signup inputs', firstName, lastName, companyName, fbHandle, email, password);
   return function (dispatch) {
 		// Submit email/password to the server
-    axios.post(`${ROOT_URL}/signup`, {firstName, lastName, companyName,
+    axios.post(`${ROOT_AUTH_URL}signup`, {firstName, lastName, companyName,
 			fbHandle, email, password})
       .then(response => {
 				// If request is good...
@@ -44,7 +44,7 @@ export function signupUser({firstName, lastName, companyName, fbHandle, email, p
         localStorage.setItem('token', response.data.token);
 
         // - redirect to the route '/feature'
-        browserHistory.push('/social');
+        browserHistory.push('/');
       })
       .catch(() => {response => dispatch(authError(response.data.error));
         // if request is bad... Show an error to the user
