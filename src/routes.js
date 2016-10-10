@@ -7,6 +7,7 @@ import NewTimesheet from './components/newTimesheet';
 import UserData from './components/userData';
 import Signup from './components/auth/signup';
 import Signin from './components/auth/signin';
+import Test from './components/testComponent';
 
 export default (
   <Route path="/" component={App}>
@@ -15,5 +16,6 @@ export default (
     <Route path="user/:name" component={UserData}/>
     <Route path="signup" component={Signup}/>
     <Route path="signin" component={Signin}/>
+    <Route path="test" component={Test}/>
   </Route>
 );

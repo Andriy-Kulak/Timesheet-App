@@ -40,7 +40,8 @@
     "redux": "^3.0.4",
     "redux-auth": "0.0.5-beta5",
     "redux-form": "^4.1.3",
-    "redux-promise": "^0.5.1"
+    "redux-promise": "^0.5.1",
+    "redux-thunk": "^2.1.0"
   },
   "eslintConfig": {
     "root": true,

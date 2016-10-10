@@ -1,15 +1,16 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {fetchTimesheetData} from '../actions/time.actions';
+import {fetchTest} from '../actions/time.actions';
 import {Link} from 'react-router';
 import {Table, Grid, Col, Row} from 'react-bootstrap';
 
-class DashboardIndex extends Component {
+class Test extends Component {
   componentWillMount() {
-    this.props.fetchTimesheetData();
+    this.props.fetchTest();
   }
 
   renderRows() {
+    console.log('user data', this.props.sheets);
     return this.props.sheets.map(data => {
       // below constants convert date object into simple mm/dd/yyyy format
       const cts = new Date(data.dateWorked);
@@ -31,6 +32,12 @@ class DashboardIndex extends Component {
   }
 
   render() {
+    const {sheets} = this.props;
+    console.log('time', sheets);
+    if (!sheets) {
+      return <div>Loading...</div>;
+    }
+
     return (
       <Grid>
         <Row>
@@ -56,13 +63,13 @@ class DashboardIndex extends Component {
   }
 }
 
-DashboardIndex.propTypes = {
+Test.propTypes = {
   fetchTimesheetData: PropTypes.func,
   sheets: PropTypes.array
 };
 
 function mapStateToProps(state) {
-  return {sheets: state.sheets.all};
+  return {sheets: state.sheets.test};
 }
 
-export default connect(mapStateToProps, {fetchTimesheetData})(DashboardIndex);
+export default connect(mapStateToProps, {fetchTest})(Test);

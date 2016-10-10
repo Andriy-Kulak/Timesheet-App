@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {FETCH_TIMESHEET, CREATE_TIMESHEET, FETCH_USER_DATA, DELETE_TIMESHEET, ROOT_URL} from '../constants/time.constants';
+import {FETCH_TIMESHEET, CREATE_TIMESHEET, FETCH_USER_DATA, DELETE_TIMESHEET, FETCH_TEST, ROOT_URL} from '../constants/time.constants';
 
 export function fetchTimesheetData() {
   const request = axios.get(ROOT_URL);
@@ -9,6 +9,23 @@ export function fetchTimesheetData() {
     payload: request
   };
 }
+
+// Test
+export function fetchTest() {
+  const request = axios.get(ROOT_URL); // this ajax returns a promise
+
+  return dispatch => {
+    request.then(({data}) => {
+      console.log('data', data);
+      dispatch({type: FETCH_TEST, payload: data});
+    });
+  };
+  // payload is an optional paraamter that goes into action that can provide some additional info
+}
+
+
+
+
 
 export function createTimesheet(props) {
   const request = axios.post(ROOT_URL, props);

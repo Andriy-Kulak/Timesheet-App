@@ -5,11 +5,17 @@ import {createStore, applyMiddleware} from 'redux';
 import {Router, browserHistory} from 'react-router';
 import reducers from './reducers';
 import routes from './routes';
-import promise from 'redux-promise';
+// import promise from 'redux-promise';
+import reduxThunk from 'redux-thunk';
 import {AUTH_USER} from './constants/auth.constants';
 
+
+// redux thunk case
+const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
+// redux promise case
+// const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
+
 const token = localStorage.getItem('token');
-const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
 const store = createStoreWithMiddleware(reducers);
 // If we have a token, consider the user to be logged in
 if (token) {
