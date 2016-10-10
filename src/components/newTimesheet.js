@@ -6,14 +6,8 @@ import {Link} from 'react-router';
 class NewTimesheet extends Component {
 
   onSubmit(props) {
-    this.props.createTimesheet(props)
-      .then(() => {
-        console.log('submitted the request');
-        // timesheet has been created, navigate the user to the index
-        // We navigate by calling this.context.router.push with the
-        // new path to navigate to.
-        this.context.router.push('/');
-      });
+    this.props.createTimesheet(props);
+    this.context.router.push('/');
   }
 
   render() {
@@ -61,6 +55,10 @@ class NewTimesheet extends Component {
     );
   }
 }
+
+NewTimesheet.contextTypes = {
+  router: PropTypes.func
+};
 
 function validate(values) {
   const errors = {};

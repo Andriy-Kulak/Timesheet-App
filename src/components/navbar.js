@@ -11,6 +11,7 @@ import {
 class NavBar extends Component {
 
   render() {
+    console.log('test', this.props);
     return (
       <Navbar>
         <Navbar.Header>

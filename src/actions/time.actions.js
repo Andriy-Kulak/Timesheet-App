@@ -3,29 +3,12 @@ import {FETCH_TIMESHEET, CREATE_TIMESHEET, FETCH_USER_DATA, DELETE_TIMESHEET, FE
 
 export function fetchTimesheetData() {
   const request = axios.get(ROOT_URL);
-
-  return {
-    type: FETCH_TIMESHEET,
-    payload: request
-  };
-}
-
-// Test
-export function fetchTest() {
-  const request = axios.get(ROOT_URL); // this ajax returns a promise
-
   return dispatch => {
     request.then(({data}) => {
-      console.log('data', data);
-      dispatch({type: FETCH_TEST, payload: data});
+      dispatch({type: FETCH_TIMESHEET, payload: data});
     });
   };
-  // payload is an optional paraamter that goes into action that can provide some additional info
 }
-
-
-
-
 
 export function createTimesheet(props) {
   const request = axios.post(ROOT_URL, props);
@@ -37,12 +20,11 @@ export function createTimesheet(props) {
 }
 
 export function fetchUserData(name) {
-  console.log('hittin it name', name);
   const request = axios.get(`${ROOT_URL}${name}`);
-  console.log('hittin it', request);
-  return {
-    type: FETCH_USER_DATA,
-    payload: request
+  return dispatch => {
+    request.then(({data}) => {
+      dispatch({type: FETCH_USER_DATA, payload: data});
+    });
   };
 }
 

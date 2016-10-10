@@ -56,8 +56,7 @@
       "plugin:import/warnings"
     ],
     "rules": {
-      "react/forbid-component-props": "off",
-      "camelcase": "off"
+      "react/forbid-component-props": "off"
     }
   }
 }

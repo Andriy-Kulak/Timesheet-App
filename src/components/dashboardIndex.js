@@ -58,7 +58,7 @@ class DashboardIndex extends Component {
 
 DashboardIndex.propTypes = {
   fetchTimesheetData: PropTypes.func,
-  sheets: PropTypes.array
+  sheets: PropTypes.any
 };
 
 function mapStateToProps(state) {
