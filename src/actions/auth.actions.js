@@ -7,16 +7,13 @@ export function signinUser({email, password}) {
 		// Submit email/password to the server
     axios.post(`${ROOT_AUTH_URL}signin`, {email, password})
     .then(response => {
-      // If request is good...
-      console.log('PASS');
-
       // - Update state to indicate user is authenticated: flag will turn to "true"
       dispatch({type: AUTH_USER});
       // - Save the JWT token in local storage
       localStorage.setItem('token', response.data.token);
-
+      console.log(response.data);
       // - redirect to the route '/feature'
-      browserHistory.push('/social');
+      browserHistory.push('/');
     })
     .catch(() => {
 					// if request is bad...
@@ -79,6 +76,3 @@ export function fetchMessage() {
 			});
 	}
 }*/
-
-// importan rule: action creator alwasys returns an object (which is what we call an action) except when you use
-// redux thunk - you can return another function

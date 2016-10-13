@@ -85,7 +85,7 @@ function validate(formProps) {
 
 Signup.propTypes = {
   signupUser: PropTypes.func,
-  errorMessage: PropTypes.object,
+  errorMessage: PropTypes.string,
   handleSubmit: PropTypes.func,
   fields: PropTypes.object
 };

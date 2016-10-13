@@ -57,7 +57,7 @@ class NewTimesheet extends Component {
 }
 
 NewTimesheet.contextTypes = {
-  router: PropTypes.func
+  router: PropTypes.object
 };
 
 function validate(values) {

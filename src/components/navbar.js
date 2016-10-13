@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-// import {connect} from 'react-redux';
+import React, {Component, PropTypes} from 'react';
+import {connect} from 'react-redux';
 import {LinkContainer, IndexLinkContainer} from 'react-router-bootstrap';
 
 import {
@@ -11,6 +11,7 @@ import {
 class NavBar extends Component {
 
   render() {
+    const {authenticated} = this.props;
     return (
       <Navbar>
         <Navbar.Header>
@@ -24,18 +25,24 @@ class NavBar extends Component {
             <IndexLinkContainer to="/">
               <NavItem className="nav-link" eventKey={1}>Dashboard</NavItem>
             </IndexLinkContainer>
-            <LinkContainer to="timesheet/new">
+            <LinkContainer to="/timesheet/new">
               <NavItem className="nav-link" eventKey={2}>Submit Time</NavItem>
             </LinkContainer>
-            <LinkContainer to="user/Andriy">
+            <LinkContainer to="/user/Andriy">
               <NavItem className="nav-link" eventKey={3}>Andriy Time</NavItem>
             </LinkContainer>
-            <LinkContainer to="/signin">
-              <NavItem className="nav-link" EventKey={1}>Sign In</NavItem>
-            </LinkContainer>
-            <LinkContainer to="/signup">
-              <NavItem className="nav-link" EventKey={2}>Sign Up</NavItem>
-            </LinkContainer>
+            {authenticated &&
+              <LinkContainer to="/signout">
+                <NavItem className="nav-link" eventKey={4}>Sign Out</NavItem>
+              </LinkContainer>}
+            {!authenticated &&
+              <LinkContainer to="/signin">
+                <NavItem className="nav-link" eventKey={5}>Sign In</NavItem>
+              </LinkContainer>}
+            {!authenticated &&
+              <LinkContainer to="/signup">
+                <NavItem className="nav-link">Sign Up</NavItem>
+              </LinkContainer>}
           </Nav>
         </Navbar.Collapse>
       </Navbar>
@@ -43,4 +50,14 @@ class NavBar extends Component {
   }
 }
 
-export default NavBar;
+NavBar.propTypes = {
+  authenticated: PropTypes.bool
+};
+
+function mapStateToProps(state) {
+  return {
+    authenticated: state.auth.authenticated
+  };
+}
+
+export default connect(mapStateToProps)(NavBar);
