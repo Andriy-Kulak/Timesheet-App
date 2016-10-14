@@ -8,10 +8,9 @@ export function signinUser({email, password}) {
     axios.post(`${ROOT_AUTH_URL}signin`, {email, password})
     .then(response => {
       // - Update state to indicate user is authenticated: flag will turn to "true"
-      dispatch({type: AUTH_USER});
+      dispatch({type: AUTH_USER, payload: response.data.data});
       // - Save the JWT token in local storage
       localStorage.setItem('token', response.data.token);
-      console.log(response.data);
       // - redirect to the route '/feature'
       browserHistory.push('/');
     })
@@ -26,7 +25,6 @@ export function signinUser({email, password}) {
 	// TODOx: put all repetitive signup and signin code in here
 
 export function signupUser({firstName, lastName, companyName, fbHandle, email, password}) {
-  console.log('action signup inputs', firstName, lastName, companyName, fbHandle, email, password);
   return function (dispatch) {
 		// Submit email/password to the server
     axios.post(`${ROOT_AUTH_URL}signup`, {firstName, lastName, companyName,
@@ -63,16 +61,3 @@ export function signoutUser() {
     type: UNAUTH_USER
   };
 }
-
-// testing to make sure we can make authenticated request to our auth backend
-/*
-export function fetchMessage() {
-	return function(dispatch) {
-		axios.get(ROOT_URL, {
-			headers: {authorization: localStorage.getItem('token')}
-		})
-			.then(response => {
-				console.log("TEST", response);
-			});
-	}
-}*/

@@ -12,6 +12,11 @@ class NavBar extends Component {
 
   render() {
     const {authenticated} = this.props;
+    let {userInfo} = this.props;
+    if (!userInfo) {
+      userInfo = [];
+    }
+    console.log('this props', userInfo);
     return (
       <Navbar>
         <Navbar.Header>
@@ -22,6 +27,9 @@ class NavBar extends Component {
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav>
+            <LinkContainer to="/3">
+              <NavItem className="nav-link" eventKey={10}>Hello {userInfo.firstName}</NavItem>
+            </LinkContainer>
             <IndexLinkContainer to="/">
               <NavItem className="nav-link" eventKey={1}>Dashboard</NavItem>
             </IndexLinkContainer>
@@ -51,12 +59,14 @@ class NavBar extends Component {
 }
 
 NavBar.propTypes = {
-  authenticated: PropTypes.bool
+  authenticated: PropTypes.bool,
+  userInfo: PropTypes.object
 };
 
 function mapStateToProps(state) {
   return {
-    authenticated: state.auth.authenticated
+    authenticated: state.auth.authenticated,
+    userInfo: state.auth.userInfo
   };
 }
 
