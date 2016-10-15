@@ -52,7 +52,7 @@ class NavBar extends Component {
               </LinkContainer>}
             {authenticated &&
               <Navbar.Text pullRight>
-                Hello {userName}
+                Hello {userName}!
               </Navbar.Text>}
           </Nav>
         </Navbar.Collapse>

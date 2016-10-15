@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {reduxForm} from 'redux-form';
 import {createTimesheet} from '../actions/time.actions';
 import {Link} from 'react-router';
+import {parseJwt} from '../actions/auth.actions';
 
 class NewTimesheet extends Component {
 
@@ -11,6 +12,12 @@ class NewTimesheet extends Component {
   }
 
   render() {
+    const userToken = localStorage.getItem('token');
+    let userName = '';
+    if (userToken) {
+      userName = parseJwt(userToken).firstName;
+    }
+
     const {fields: {name, dateWorked, hoursWorked, workType}, handleSubmit} = this.props;
 
     return (
