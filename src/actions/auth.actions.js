@@ -8,9 +8,10 @@ export function signinUser({email, password}) {
     axios.post(`${ROOT_AUTH_URL}signin`, {email, password})
     .then(response => {
       // - Update state to indicate user is authenticated: flag will turn to "true"
-      dispatch({type: AUTH_USER, payload: response.data.data});
+      dispatch({type: AUTH_USER});
       // - Save the JWT token in local storage
       localStorage.setItem('token', response.data.token);
+
       // - redirect to the route '/feature'
       browserHistory.push('/');
     })
@@ -60,4 +61,10 @@ export function signoutUser() {
   return {
     type: UNAUTH_USER
   };
+}
+
+export function parseJwt(token) {
+  const base64Url = token.split('.')[1];
+  const base64 = base64Url.replace('-', '+').replace('_', '/');
+  return JSON.parse(window.atob(base64));
 }

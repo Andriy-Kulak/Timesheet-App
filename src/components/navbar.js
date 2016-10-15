@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {LinkContainer, IndexLinkContainer} from 'react-router-bootstrap';
+import {parseJwt} from '../actions/auth.actions';
 
 import {
   Nav,
@@ -11,12 +12,13 @@ import {
 class NavBar extends Component {
 
   render() {
-    const {authenticated} = this.props;
-    let {userInfo} = this.props;
-    if (!userInfo) {
-      userInfo = [];
+    const userToken = localStorage.getItem('token');
+    let userName = '';
+    if (userToken) {
+      userName = parseJwt(userToken).firstName;
     }
-    console.log('this props', userInfo);
+    const {authenticated} = this.props;
+
     return (
       <Navbar>
         <Navbar.Header>
@@ -27,9 +29,6 @@ class NavBar extends Component {
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav>
-            <LinkContainer to="/3">
-              <NavItem className="nav-link" eventKey={10}>Hello {userInfo.firstName}</NavItem>
-            </LinkContainer>
             <IndexLinkContainer to="/">
               <NavItem className="nav-link" eventKey={1}>Dashboard</NavItem>
             </IndexLinkContainer>
@@ -51,6 +50,10 @@ class NavBar extends Component {
               <LinkContainer to="/signup">
                 <NavItem className="nav-link">Sign Up</NavItem>
               </LinkContainer>}
+            {authenticated &&
+              <Navbar.Text pullRight>
+                Hello {userName}
+              </Navbar.Text>}
           </Nav>
         </Navbar.Collapse>
       </Navbar>
@@ -59,14 +62,12 @@ class NavBar extends Component {
 }
 
 NavBar.propTypes = {
-  authenticated: PropTypes.bool,
-  userInfo: PropTypes.object
+  authenticated: PropTypes.bool
 };
 
 function mapStateToProps(state) {
   return {
-    authenticated: state.auth.authenticated,
-    userInfo: state.auth.userInfo
+    authenticated: state.auth.authenticated
   };
 }
 
