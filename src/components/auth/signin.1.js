@@ -25,17 +25,27 @@ class Signin extends Component {
 
     return (
       <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-        <fieldset className="form-group">
-          <label>Email:</label>
-          <input {...email} type="text" required className="form-control"/>
-        </fieldset>
-        <fieldset className="form-group">
-          <label>Password:</label>
-          <input {...password} type="password" required className="form-control"/>
-        </fieldset>
+        <div>
+          <div>
+            <label>Email:</label>
+          </div>
+          <div>
+            <Field name="email" component="input" type="text" required/>
+          </div>
+        </div>
+        <div>
+          <div>
+            <label>Password:</label>
+          </div>
+          <div>
+            <Field name="password" component="input" type="password" required/>
+          </div>
+        </div>
         {this.renderAlert()}
         <button action="submit" className="btn btn-primary">Sign in</button>
       </form>
+
+
 	);
   }
 }
@@ -55,3 +65,18 @@ export default reduxForm({
   form: 'signin',
   fields: ['email', 'password']
 }, mapStateToProps, actions)(Signin);
+
+      // <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+      //   <fieldset className="form-group">
+      //     <label>Email:</label>
+      //     <input {...email} type="text" required className="form-control"/>
+      //   </fieldset>
+      //   <fieldset className="form-group">
+      //     <label>Password:</label>
+      //     <input {...password} type="password" required className="form-control"/>
+      //   </fieldset>
+      //   {this.renderAlert()}
+      //   <button action="submit" className="btn btn-primary">Sign in</button>
+      // </form>
+
+// https://github.com/erikras/redux-form/tree/master/examples

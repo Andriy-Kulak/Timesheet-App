@@ -9,7 +9,6 @@ import routes from './routes';
 import reduxThunk from 'redux-thunk';
 import {AUTH_USER} from './constants/auth.constants';
 
-
 // redux thunk case
 const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
 // redux promise case

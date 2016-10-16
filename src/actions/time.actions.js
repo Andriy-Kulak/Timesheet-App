@@ -13,12 +13,9 @@ export function fetchTimesheetData() {
 
 export function createTimesheet(props) {
   const userToken = localStorage.getItem('token');
-  let userInfo;
-  if (userToken) {
-    userInfo = parseJwt(userToken);
-  }
+  const userInfo = parseJwt(userToken);
+
   props.userInfo = userInfo;
-  console.log('create action hit beofre ', props);
 
   const request = axios.post(ROOT_URL, props);
   console.log('create action hit after', props);

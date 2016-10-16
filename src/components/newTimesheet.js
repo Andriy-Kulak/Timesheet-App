@@ -2,7 +2,6 @@ import React, {Component, PropTypes} from 'react';
 import {reduxForm} from 'redux-form';
 import {createTimesheet} from '../actions/time.actions';
 import {Link} from 'react-router';
-import {parseJwt} from '../actions/auth.actions';
 
 class NewTimesheet extends Component {
 
@@ -12,25 +11,11 @@ class NewTimesheet extends Component {
   }
 
   render() {
-    const userToken = localStorage.getItem('token');
-    let userName = '';
-    if (userToken) {
-      userName = parseJwt(userToken).firstName;
-    }
-
-    const {fields: {name, dateWorked, hoursWorked, workType}, handleSubmit} = this.props;
-
+    const {fields: {dateWorked, hoursWorked, workType}, handleSubmit} = this.props;
+      // {fields: {dateWorked, hoursWorked, workType}, handleSubmit}
     return (
       <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
         <h3>Submit Your Time</h3>
-
-        <div className={`form-group ${name.touched && name.invalid ? 'has-danger' : ''}`}>
-          <label>Name</label>
-          <input type="text" className="form-control" {...name}/>
-          <div className="text-help">
-            {name.touched ? name.error : ''}
-          </div>
-        </div>
 
         <div className={`form-group ${dateWorked.touched && dateWorked.invalid ? 'has-danger' : ''}`}>
           <label>Date Worked</label>
@@ -70,9 +55,6 @@ NewTimesheet.contextTypes = {
 function validate(values) {
   const errors = {};
 
-  if (!values.name) {
-    errors.name = 'Enter a proper name';
-  }
   if (!values.dateWorked) {
     errors.dateWorked = 'Enter proper Date';
   }
@@ -96,6 +78,6 @@ NewTimesheet.propTypes = {
 // reduxForm: 1st is form config, 2nd is mapStateToProps, 3rd is mapDispatchToProps
 export default reduxForm({
   form: 'TimesheetNewForm',
-  fields: ['name', 'hoursWorked', 'dateWorked', 'workType'],
+  fields: ['hoursWorked', 'dateWorked', 'workType'],
   validate
 }, null, {createTimesheet})(NewTimesheet);

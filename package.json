@@ -56,7 +56,9 @@
       "plugin:import/warnings"
     ],
     "rules": {
-      "react/forbid-component-props": "off"
+      "react/forbid-component-props": "off",
+      "react/jsx-no-bind": 0,
+      "no-unused-expressions": 0
     }
   }
 }

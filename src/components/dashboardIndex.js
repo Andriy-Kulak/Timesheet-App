@@ -19,7 +19,7 @@ class DashboardIndex extends Component {
         <tr key={data._id}>
           <td>
             <Link to={'user/' + data.name}>
-              <strong>{data.name}</strong>
+              <strong>{data.userInfo.firstName} {data.userInfo.lastName}</strong>
             </Link>
           </td>
           <td>{cdate}</td>

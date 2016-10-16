@@ -1,7 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {LinkContainer, IndexLinkContainer} from 'react-router-bootstrap';
-import {parseJwt} from '../actions/auth.actions';
 
 import {
   Nav,
@@ -12,11 +11,6 @@ import {
 class NavBar extends Component {
 
   render() {
-    const userToken = localStorage.getItem('token');
-    let userName = '';
-    if (userToken) {
-      userName = parseJwt(userToken).firstName;
-    }
     const {authenticated} = this.props;
 
     return (
@@ -50,10 +44,6 @@ class NavBar extends Component {
               <LinkContainer to="/signup">
                 <NavItem className="nav-link">Sign Up</NavItem>
               </LinkContainer>}
-            {authenticated &&
-              <Navbar.Text pullRight>
-                Hello {userName}!
-              </Navbar.Text>}
           </Nav>
         </Navbar.Collapse>
       </Navbar>
@@ -72,3 +62,5 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(NavBar);
+
+// parseJwt(localStorage.getItem('token')).firstName

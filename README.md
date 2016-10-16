@@ -6,10 +6,11 @@ Description: the app helps users keep track of their daily working hours. In add
 
 <h4>To Do List</h4>
 Step 1:
-- build authentication with email or facebook
-- use the name logged by user to store that as a reference when s/he creates a new timesheet entry
-- Done : √change api so when we hit ... api/v1/timesheet/{userID} - it brings a list of all the entries for that user
+- √ - build authentication with email or facebook
+- √ - use the name logged by user to store that as a reference when s/he creates a new timesheet entry
+- √ - change api so when we hit ... api/v1/timesheet/{userID} - it brings a list of all the entries for that user
 Step 2:
+- finishe configuring user detail with api
 - add another table that has the options for types of work available
 - create a dynamic submition form where a user can submit multiple days at the same timesheet
 - unit testing for both front and back end

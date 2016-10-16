@@ -25,11 +25,10 @@ export function signinUser({email, password}) {
 
 	// TODOx: put all repetitive signup and signin code in here
 
-export function signupUser({firstName, lastName, companyName, fbHandle, email, password}) {
+export function signupUser({firstName, lastName, email, password}) {
   return function (dispatch) {
 		// Submit email/password to the server
-    axios.post(`${ROOT_AUTH_URL}signup`, {firstName, lastName, companyName,
-			fbHandle, email, password})
+    axios.post(`${ROOT_AUTH_URL}signup`, {firstName, lastName, email, password})
       .then(response => {
 				// If request is good...
         console.log('PASS');
@@ -42,7 +41,8 @@ export function signupUser({firstName, lastName, companyName, fbHandle, email, p
         // - redirect to the route '/feature'
         browserHistory.push('/');
       })
-      .catch(() => {response => dispatch(authError(response.data.error));
+      .catch(() => {
+        response => dispatch(authError(response.data.error));
         // if request is bad... Show an error to the user
         dispatch(authError('Bad Login Info!'));
       });
