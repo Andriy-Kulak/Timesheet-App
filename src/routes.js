@@ -9,13 +9,17 @@ import Signup from './components/auth/signup';
 import Signin from './components/auth/signin';
 import Signout from './components/auth/signout';
 
+import NewTimesheet2 from './components/newTimesheet2';
+
 export default (
   <Route path="/" component={App}>
     <IndexRoute component={DashboardIndex}/>
     <Route path="timesheet/new" component={NewTimesheet}/>
-    <Route path="user/:name" component={UserData}/>
+    <Route path="user/:id" component={UserData}/>
     <Route path="signup" component={Signup}/>
     <Route path="signin" component={Signin}/>
     <Route path="signout" component={Signout}/>
+
+    <Route path="timesheet/test" component={NewTimesheet2}/>
   </Route>
 );

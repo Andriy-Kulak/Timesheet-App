@@ -1,3 +1,11 @@
 form a {
   margin-left: 5px;
 }
+
+.input-width {
+  width: 40px;
+}
+
+.workType-width {
+  width: 100px;
+}

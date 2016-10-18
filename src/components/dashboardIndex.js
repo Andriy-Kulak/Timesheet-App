@@ -18,7 +18,7 @@ class DashboardIndex extends Component {
       return (
         <tr key={data._id}>
           <td>
-            <Link to={'user/' + data.name}>
+            <Link to={'user/' + data.userInfo.sub}>
               <strong>{data.userInfo.firstName} {data.userInfo.lastName}</strong>
             </Link>
           </td>

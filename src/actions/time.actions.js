@@ -12,6 +12,7 @@ export function fetchTimesheetData() {
 }
 
 export function createTimesheet(props) {
+  console.log('create action hit after', props);
   const userToken = localStorage.getItem('token');
   const userInfo = parseJwt(userToken);
 
@@ -25,8 +26,8 @@ export function createTimesheet(props) {
   };
 }
 
-export function fetchUserData(name) {
-  const request = axios.get(`${ROOT_URL}${name}`);
+export function fetchUserData(id) {
+  const request = axios.get(`${ROOT_URL}${id}`);
   return dispatch => {
     request.then(({data}) => {
       dispatch({type: FETCH_USER_DATA, payload: data});
