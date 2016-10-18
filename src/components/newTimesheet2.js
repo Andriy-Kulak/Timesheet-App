@@ -1,13 +1,14 @@
 import React, {Component, PropTypes} from 'react';
 import {reduxForm, Field} from 'redux-form';
-import {createTimesheet} from '../actions/time.actions';
+import {createTimesheet2} from '../actions/time.actions';
 import {Table, Grid, Col, Row} from 'react-bootstrap';
 
 class NewTimesheet2 extends Component {
 
   onSubmit(props) {
     console.log('props test', props);
-    this.props.createTimesheet(props);
+    // this.props.createTimesheet(props);
+    createTimesheet2(props);
     console.log('props test 2', props);
     this.context.router.push('/');
   }
@@ -15,16 +16,38 @@ class NewTimesheet2 extends Component {
   render() {
     const {handleSubmit} = this.props;
     console.log('this.props', this.props);
-   // const {fields: {dateWorked, hoursWorked, workType}, handleSubmit} = this.props;
+    // const {fields: {dateWorked, hoursWorked, workType}, handleSubmit} = this.props;
       // {fields: {dateWorked, hoursWorked, workType}, handleSubmit}
+    // let thisWeek = 'test';
+    // if (this.props.week) {
+    //   thisWeek = this.props.week;
+    // }
+
+    const renderWeek = this.props;
+
     return (
       <div>
 
         <Grid>
           <Row>
             <Col md={12}>
+
+
               <h3>Timesheet</h3>
+
               <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+                <div>
+                  <label>Pick a Week</label>
+                  <div>
+                    <Field name={renderWeek} component="select">
+                      <option value="10/17/2016"/>
+                      <option value="10/17/2016">Week of 10/17/2016</option>
+                      <option value="10/24/2016">Week of 10/24/2016</option>
+                      <option value="10/31/2016">Week of 10/31/2016</option>
+                    </Field>
+                  </div>
+                </div>
+
                 <Table responsive bordered condensed hover className="input-width" type="number">
                   <thead>
                     <tr>
@@ -41,7 +64,7 @@ class NewTimesheet2 extends Component {
                   <tbody>
                     <tr>
                       <td><div className="workType-width">Client App Dev.</div></td>
-                      <td><div><Field name="monDev" className="input-width" component="input" type="number"/></div></td>
+                      <td><div><Field name={`${renderWeek}.Dev`} className="input-width" component="input" type="number"/></div></td>
                       <td><div><Field name="Tue-Dev" className="input-width" component="input" type="number"/></div></td>
                       <td><div><Field name="Wed-Dev" className="input-width" component="input" type="number"/></div></td>
                       <td><div><Field name="Thur-Dev" className="input-width" component="input" type="number"/></div></td>
@@ -83,14 +106,27 @@ NewTimesheet2.contextTypes = {
 // }
 
 NewTimesheet2.propTypes = {
-  createTimesheet: PropTypes.func,
+  // createTimesheet2: PropTypes.func,
   // fields: PropTypes.object,
-  handleSubmit: PropTypes.func
+  handleSubmit: PropTypes.func,
+  week: PropTypes.string
 };
 
 // connect: first argument is mapStateToProps, 2nd is mapDispatchToProps
 // reduxForm: 1st is form config, 2nd is mapStateToProps, 3rd is mapDispatchToProps
 export default reduxForm({
   form: 'TimesheetNewForm'
-}, null, {createTimesheet})(NewTimesheet2);
+}, null, {createTimesheet2})(NewTimesheet2);
 
+
+                // <div>
+                //   <label>Pick a Week</label>
+                //   <div>
+                //     <Field name="week" component="select">
+                //       <option value="10/17/2016"/>
+                //       <option value="10/17/2016">Week of 10/17/2016</option>
+                //       <option value="10/24/2016">Week of 10/24/2016</option>
+                //       <option value="10/31/2016">Week of 10/31/2016</option>
+                //     </Field>
+                //   </div>
+                // </div>

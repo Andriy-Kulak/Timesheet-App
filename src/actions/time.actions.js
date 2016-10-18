@@ -26,6 +26,22 @@ export function createTimesheet(props) {
   };
 }
 
+export function createTimesheet2(props) {
+  console.log('hit action');
+  const userToken = localStorage.getItem('token');
+  const userInfo = parseJwt(userToken);
+  props.userInfo = userInfo;
+  console.log('create action hit after', props);
+
+  // const request = axios.post(ROOT_URL, props);
+  // return {
+  //   type: CREATE_TIMESHEET,
+  //   payload: request
+  // };
+}
+
+
+
 export function fetchUserData(id) {
   const request = axios.get(`${ROOT_URL}${id}`);
   return dispatch => {
