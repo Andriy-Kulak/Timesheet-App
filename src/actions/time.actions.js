@@ -12,6 +12,7 @@ export function fetchTimesheetData() {
 }
 
 export function createTimesheet(props) {
+  console.log('createTimesheet', props);
   const userToken = localStorage.getItem('token');
   const userInfo = parseJwt(userToken);
 
