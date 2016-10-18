@@ -9,7 +9,8 @@ import Signup from './components/auth/signup';
 import Signin from './components/auth/signin';
 import Signout from './components/auth/signout';
 
-import NewTimesheet2 from './components/newTimesheet2';
+import SubmitDashboard from './components/submitDashboard';
+import newTimesheet2 from './components/newTimesheet2';
 
 export default (
   <Route path="/" component={App}>
@@ -20,6 +21,8 @@ export default (
     <Route path="signin" component={Signin}/>
     <Route path="signout" component={Signout}/>
 
-    <Route path="timesheet/test" component={NewTimesheet2}/>
+    <Route path="timesheet/test/" component={SubmitDashboard}>
+      <Route path="week/:id" component={newTimesheet2}/>
+    </Route>
   </Route>
 );

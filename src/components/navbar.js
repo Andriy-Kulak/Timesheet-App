@@ -44,7 +44,7 @@ class NavBar extends Component {
               <LinkContainer to="/signup">
                 <NavItem className="nav-link">Sign Up</NavItem>
               </LinkContainer>}
-            <LinkContainer to="/timesheet/test">
+            <LinkContainer to="/timesheet/test/">
               <NavItem className="nav-link" eventKey={2}>Submit TEST</NavItem>
             </LinkContainer>
           </Nav>

@@ -17,3 +17,7 @@ Step 2:
 Step 3:
 - create a dashboard for specific user where s/he sees their logged timesheet
 - create D3 dashboard where the user can see statistics of what's going on
+
+// "redux-form": "^4.1.3", 6.1.1
+
+// 5.3.3

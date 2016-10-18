@@ -40,8 +40,6 @@ export function createTimesheet2(props) {
   // };
 }
 
-
-
 export function fetchUserData(id) {
   const request = axios.get(`${ROOT_URL}${id}`);
   return dispatch => {
