@@ -6,13 +6,16 @@ import {Link} from 'react-router';
 class NewTimesheet extends Component {
 
   onSubmit(props) {
+    console.log('on Submit props', props);
     this.props.createTimesheet(props);
+    console.log('on Submit AFTER props', props);
     this.context.router.push('/');
   }
 
   render() {
     const {fields: {dateWorked, hoursWorked, workType}, handleSubmit} = this.props;
       // {fields: {dateWorked, hoursWorked, workType}, handleSubmit}
+    console.log('render this props', this.props);
     return (
       <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
         <h3>Submit Your Time</h3>
