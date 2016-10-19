@@ -7,7 +7,8 @@ class NewTimesheet extends Component {
 
   onSubmit(props) {
     console.log('on Submit props', props);
-    this.props.createTimesheet(props).then((response) => this.context.router.push('/'));
+    this.props.createTimesheet(props);
+    this.context.router.push('/');
   }
 
   render() {
