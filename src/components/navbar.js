@@ -29,7 +29,7 @@ class NavBar extends Component {
             <LinkContainer to="/timesheet/new">
               <NavItem className="nav-link" eventKey={2}>Submit Time</NavItem>
             </LinkContainer>
-            <LinkContainer to="/user/Andriy">
+            <LinkContainer to="/user/57f959eb24553d437c4c75bd">
               <NavItem className="nav-link" eventKey={3}>Andriy Time</NavItem>
             </LinkContainer>
             {authenticated &&
@@ -44,6 +44,9 @@ class NavBar extends Component {
               <LinkContainer to="/signup">
                 <NavItem className="nav-link">Sign Up</NavItem>
               </LinkContainer>}
+            <LinkContainer to="/timesheet/test/">
+              <NavItem className="nav-link" eventKey={2}>Submit TEST</NavItem>
+            </LinkContainer>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

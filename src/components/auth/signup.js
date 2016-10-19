@@ -97,13 +97,3 @@ export default reduxForm({
   validate
 }, mapStateToProps, actions)(Signup);
 // actions is always the third argument
-
-
-        // <fieldset className="form-group">
-        //   <label>Company Name:</label>
-        //   <input {...companyName} className="form-control"/>
-        // </fieldset>
-        // <fieldset className="form-group">
-        //   <label>Facebook Handle:</label>
-        //   <input {...fbHandle} className="form-control"/>
-        // </fieldset>

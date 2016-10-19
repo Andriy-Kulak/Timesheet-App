@@ -6,7 +6,7 @@ import {Table, Grid, Col, Row} from 'react-bootstrap';
 class UserData extends Component {
 
   componentWillMount() {
-    this.props.fetchUserData(this.props.params.name);
+    this.props.fetchUserData(this.props.params.id);
   }
 
   renderRows() {
