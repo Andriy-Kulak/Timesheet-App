@@ -6,36 +6,51 @@ import {Table, Grid, Col, Row} from 'react-bootstrap';
 class NewTimesheet2 extends Component {
 
   onSubmit(props) {
+    console.log('onSubmit this.props.params.id', this.props.params.id);
+    props.pickedWeek = this.convertToDate(this.props.params.id);
+    const dayOne = this.props.params.id;
+    props.Mon.dateWorked = this.convertToDate(dayOne, 0);
+    props.Tue.dateWorked = this.convertToDate(dayOne, 1);
+    props.Wed.dateWorked = this.convertToDate(dayOne, 2);
+    props.Thur.dateWorked = this.convertToDate(dayOne, 3);
+    props.Fri.dateWorked = this.convertToDate(dayOne, 4);
+    props.Sat.dateWorked = this.convertToDate(dayOne, 5);
+    props.Sun.dateWorked = this.convertToDate(dayOne, 6);
+
     console.log('props test', props);
-    // this.props.createTimesheet(props);
+
+    // {date, workType}
+    this.props.createTimesheet2(props);
     createTimesheet2(props);
     console.log('props test 2', props);
     this.context.router.push('/');
   }
 
-  convertToDate(string) {
+  convertToDate(string, addDays) {
+    const year = string.substring(0, 4);
+    const month = string.substring(4, 6);
+    const day = Number(string.substring(6, 8));
+    return new Date(year, month - 1, day + addDays);
+  }
+
+  converToDateString(string) {
     const year = string.substring(0, 4);
     const month = string.substring(4, 6);
     const day = string.substring(6, 8);
-    return new Date(year, month - 1, day);
+    return month + '/' + day + '/' + year;
   }
 
-  
-
-    
-
   render() {
-    const pickedWeek = this.convertToDate(this.props.params.id);
-    console.log('this.props', this.props);
-    console.log('this.props.params.id', this.props.params.id);
-    console.log('converttoDate', pickedWeek);
-
-    const {fields: {monDev, tueDev, wedDev, thurDev, friDev, satDev, sunDev}, handleSubmit} = this.props;
-      // {fields: {dateWorked, hoursWorked, workType}, handleSubmit}
-    // let thisWeek = 'test';
-    // if (this.props.week) {
-    //   thisWeek = this.props.week;
-    // }
+    const pickedString = this.converToDateString(this.props.params.id);
+    const {fields: {
+      Mon: {monDev, monQa},
+      Tue: {tueDev, tueQa},
+      Wed: {wedDev, wedQa},
+      Thur: {thurDev, thurQa},
+      Fri: {friDev, friQa},
+      Sat: {satDev, satQa},
+      Sun: {sunDev, sunQa}
+    }, handleSubmit} = this.props;
 
     return (
       <div>
@@ -44,8 +59,7 @@ class NewTimesheet2 extends Component {
           <Row>
             <Col md={12}>
 
-
-              <h3>Timesheet</h3>
+              <h4><b>Timesheet:</b> <i>for the week of {pickedString}</i></h4>
 
               <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
 
@@ -72,7 +86,16 @@ class NewTimesheet2 extends Component {
                       <td><input type="number" className="input-width" {...friDev}/></td>
                       <td><input type="number" className="input-width" {...satDev}/></td>
                       <td><input type="number" className="input-width" {...sunDev}/></td>
-
+                    </tr>
+                    <tr>
+                      <td><div className="workType-width">QA</div></td>
+                      <td><input type="number" className="input-width" {...monQa}/></td>
+                      <td><input type="number" className="input-width" {...tueQa}/></td>
+                      <td><input type="number" className="input-width" {...wedQa}/></td>
+                      <td><input type="number" className="input-width" {...thurQa}/></td>
+                      <td><input type="number" className="input-width" {...friQa}/></td>
+                      <td><input type="number" className="input-width" {...satQa}/></td>
+                      <td><input type="number" className="input-width" {...sunQa}/></td>
                     </tr>
                   </tbody>
                 </Table>
@@ -95,47 +118,18 @@ NewTimesheet2.propTypes = {
   // createTimesheet2: PropTypes.func,
   // fields: PropTypes.object,
   handleSubmit: PropTypes.func,
-  fields: PropTypes.object
+  fields: PropTypes.object,
+  createTimesheet2: PropTypes.func,
+  params: PropTypes.object
 };
 
 // connect: first argument is mapStateToProps, 2nd is mapDispatchToProps
 // reduxForm: 1st is form config, 2nd is mapStateToProps, 3rd is mapDispatchToProps
 
-
 export default reduxForm({
   form: 'TimesheetNewForm',
-  fields: ['monDev', 'tueDev', 'wedDev', 'thurDev', 'friDev', 'satDev', 'sunDev']
+  fields: [
+    'Mon.monDev', 'Tue.tueDev', 'Wed.wedDev', 'Thur.thurDev', 'Fri.friDev', 'Sat.satDev', 'Sun.sunDev',
+    'Mon.monQa', 'Tue.tueQa', 'Wed.wedQa', 'Thur.thurQa', 'Fri.friQa', 'Sat.satQa', 'Sun.sunQa'
+  ]
 }, null, {createTimesheet2})(NewTimesheet2);
-
-
-                // <div>
-                //   <label>Pick a Week</label>
-                //   <div>
-                //     <Field name="week" component="select">
-                //       <option value="10/17/2016"/>
-                //       <option value="10/17/2016">Week of 10/17/2016</option>
-                //       <option value="10/24/2016">Week of 10/24/2016</option>
-                //       <option value="10/31/2016">Week of 10/31/2016</option>
-                //     </Field>
-                //   </div>
-                // </div>
-
-                                      // <td><div><Field name="Tue-Dev" className="input-width" component="input" type="number"/></div></td>
-                      // <td><div><Field name="Wed-Dev" className="input-width" component="input" type="number"/></div></td>
-                      // <td><div><Field name="Thur-Dev" className="input-width" component="input" type="number"/></div></td>
-                      // <td><div><Field name="Fri-Dev" className="input-width" component="input" type="number"/></div></td>
-                      // <td><div><Field name="Sat-Dev" className="input-width" component="input" type="number"/></div></td>
-                      // <td><div><Field name="Sun-Dev" className="input-width" component="input" type="number"/></div></td>
-
-
-                // <div>
-                //   <label>Pick a Week</label>
-                //   <div>
-                //     <Field name="renderWeek" component="select">
-                //       <option value="10/17/2016"/>
-                //       <option value="10/17/2016">Week of 10/17/2016</option>
-                //       <option value="10/24/2016">Week of 10/24/2016</option>
-                //       <option value="10/31/2016">Week of 10/31/2016</option>
-                //     </Field>
-                //   </div>
-                // </div>

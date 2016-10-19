@@ -1,9 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import {reduxForm} from 'redux-form';
 import {createTimesheet} from '../actions/time.actions';
-import NewTimesheet2 from './newTimesheet2';
 import {Link} from 'react-router';
-import {LinkContainer, IndexLinkContainer} from 'react-router-bootstrap';
+import {LinkContainer} from 'react-router-bootstrap';
 
 class SubmitDashboard extends Component {
 
@@ -33,7 +32,7 @@ class SubmitDashboard extends Component {
             </div>
           </div>
 
-          <LinkContainer to={'/timesheet/test/week/20161710'}>
+          <LinkContainer to={'/timesheet/test/week/20161017'}>
             <strong>TESTEST</strong>
           </LinkContainer>
 

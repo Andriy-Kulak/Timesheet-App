@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {reduxForm, Field} from 'redux-form';
+import {reduxForm} from 'redux-form';
 import * as actions from '../../actions/auth.actions';
 
 class Signin extends Component {
