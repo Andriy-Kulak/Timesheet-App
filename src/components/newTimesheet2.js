@@ -1,13 +1,17 @@
 import React, {Component, PropTypes} from 'react';
 import {reduxForm} from 'redux-form';
-import {createTimesheet2} from '../actions/time.actions';
+import {createTimesheet2, fetchTest} from '../actions/time.actions';
 import {Table, Grid, Col, Row} from 'react-bootstrap';
+import {connect} from 'react-redux';
+import {parseJwt} from '../actions/auth.actions';
 
 class NewTimesheet2 extends Component {
+  // componentWillMount() {
+  //   this.props.fetchTest();
+  // }
 
   onSubmit(props) {
     console.log('onSubmit this.props.params.id', this.props.params.id);
-    props.pickedWeek = this.convertToDate(this.props.params.id);
     const dayOne = this.props.params.id;
     props.Mon.dateWorked = this.convertToDate(dayOne, 0);
     props.Tue.dateWorked = this.convertToDate(dayOne, 1);
@@ -21,9 +25,8 @@ class NewTimesheet2 extends Component {
 
     // {date, workType}
     this.props.createTimesheet2(props);
-    createTimesheet2(props);
     console.log('props test 2', props);
-    this.context.router.push('/');
+    // this.context.router.push('/');
   }
 
   convertToDate(string, addDays) {
@@ -120,16 +123,23 @@ NewTimesheet2.propTypes = {
   handleSubmit: PropTypes.func,
   fields: PropTypes.object,
   createTimesheet2: PropTypes.func,
-  params: PropTypes.object
+  params: PropTypes.object,
+  fetchTest: PropTypes.func
 };
 
 // connect: first argument is mapStateToProps, 2nd is mapDispatchToProps
 // reduxForm: 1st is form config, 2nd is mapStateToProps, 3rd is mapDispatchToProps
 
-export default reduxForm({
+function mapStateToProps(state) {
+  return {sheets: state.sheets.all};
+}
+
+const NewTest123 = reduxForm({
   form: 'TimesheetNewForm',
   fields: [
     'Mon.monDev', 'Tue.tueDev', 'Wed.wedDev', 'Thur.thurDev', 'Fri.friDev', 'Sat.satDev', 'Sun.sunDev',
     'Mon.monQa', 'Tue.tueQa', 'Wed.wedQa', 'Thur.thurQa', 'Fri.friQa', 'Sat.satQa', 'Sun.sunQa'
   ]
 }, null, {createTimesheet2})(NewTimesheet2);
+
+export default connect(mapStateToProps, {fetchTest})(NewTest123);

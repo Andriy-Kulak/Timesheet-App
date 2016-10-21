@@ -28,57 +28,21 @@ export function createTimesheet(props) {
 }
 
 export function createTimesheet2(props) {
-  // let submitArray = [];
-  // for (let i = 0; i <= 6; i++) {
-  //   submitArray.push({dateWorked: props.pickedWeek, dev: props.monDev })
-  // }
-
-  // emample = {userInfo: object, dateWorked: date, programming: 6, QA: 2, other: 0}
-
-  // const a = {
-  //   name: 'Foo',
-  //   amount: 55,
-  //   reported: false,
-  //   date: '10/01/2001'
-  // };
-
-  const map = {
-    monDev: 'dev',
-    tueDev: 'dev',
-    wedDev: 'dev',
-    thurDev: 'dev',
-    friDev: 'dev',
-    satDev: 'dev',
-    sunDev: 'dev'
-  };
-  console.log('props', props)
-
-  let testArray = [];
-  _.forEach(props, (value, key) => {
-      testArray.push(value);
-  });
-  console.log(testArray);
-  let testArrayFinal = [];
-  let b = {};
-  for (let i = 0; i < testArray.length; i++) {
-    _.each(testArray[i], (value, key) => {
-      key = map[key] || key;
-      b[key] = value;
-    }, {});
-    testArrayFinal.push(b);
-  }
-  console.log('testArrayFinal',testArrayFinal);
   console.log('hit action');
   const userToken = localStorage.getItem('token');
   const userInfo = parseJwt(userToken);
   props.userInfo = userInfo;
-  // console.log('create action hit after', props);
+  console.log('create action hit after', props);
 
-  // const request = axios.post(ROOT_URL, props);
-  // return {
-  //   type: CREATE_TIMESHEET,
-  //   payload: request
-  // };
+  const request = axios.post('http://127.0.0.1:3090/api/v1/test/timesheet/', props);
+  return {
+    type: CREATE_TIMESHEET,
+    payload: request
+  };
+}
+
+export function fetchTest() {
+  console.log('test');
 }
 
 export function fetchUserData(id) {
