@@ -11,6 +11,8 @@ class SubmitDashboard extends Component {
     this.context.router.push(`/timesheet/test/week/${props.renderWeek}`);
   }
 
+  // creates a monday date from October 3, 2016 to any date two weeks from today
+  // this is then referenced in uri and timesheet app to keep track of which week the user is on
   getMondays() {
     const monArray = [];
     let i = moment('2016-10-03').format('YYYYMMDD');
