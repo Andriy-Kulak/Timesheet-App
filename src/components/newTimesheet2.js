@@ -1,49 +1,45 @@
 import React, {Component, PropTypes} from 'react';
 import {reduxForm} from 'redux-form';
-import {createTimesheet2} from '../actions/time.actions';
+import {createTimesheet2, fetchTest, convertToDateString, convertToDate} from '../actions/time.actions';
 import {Table, Grid, Col, Row} from 'react-bootstrap';
+import {connect} from 'react-redux';
 
 class NewTimesheet2 extends Component {
+  componentWillMount() {
+    this.props.fetchTest(this.props.params.id);
+    setTimeout(console.log('test', this.props), 3000);
+  }
 
   onSubmit(props) {
     console.log('onSubmit this.props.params.id', this.props.params.id);
-    props.pickedWeek = this.convertToDate(this.props.params.id);
     const dayOne = this.props.params.id;
-    props.Mon.dateWorked = this.convertToDate(dayOne, 0);
-    props.Tue.dateWorked = this.convertToDate(dayOne, 1);
-    props.Wed.dateWorked = this.convertToDate(dayOne, 2);
-    props.Thur.dateWorked = this.convertToDate(dayOne, 3);
-    props.Fri.dateWorked = this.convertToDate(dayOne, 4);
-    props.Sat.dateWorked = this.convertToDate(dayOne, 5);
-    props.Sun.dateWorked = this.convertToDate(dayOne, 6);
+    props.Mon.dateWorked = convertToDate(dayOne, 0);
+    props.Tue.dateWorked = convertToDate(dayOne, 1);
+    props.Wed.dateWorked = convertToDate(dayOne, 2);
+    props.Thur.dateWorked = convertToDate(dayOne, 3);
+    props.Fri.dateWorked = convertToDate(dayOne, 4);
+    props.Sat.dateWorked = convertToDate(dayOne, 5);
+    props.Sun.dateWorked = convertToDate(dayOne, 6);
 
-    console.log('props test', props);
-
+    // console.log('props test', props);
     // {date, workType}
-    this.props.createTimesheet2(props);
-    createTimesheet2(props);
-    console.log('props test 2', props);
-    this.context.router.push('/');
-  }
+    // this.props.createTimesheet2(props);
+    // console.log('props test 2', props);
+    // this.context.router.push('/');
 
-  convertToDate(string, addDays) {
-    const year = string.substring(0, 4);
-    const month = string.substring(4, 6);
-    const day = Number(string.substring(6, 8));
-    return new Date(year, month - 1, day + addDays);
-  }
-
-  converToDateString(string) {
-    const year = string.substring(0, 4);
-    const month = string.substring(4, 6);
-    const day = string.substring(6, 8);
-    return month + '/' + day + '/' + year;
+    this.props.fetchTest();
   }
 
   render() {
-    const pickedString = this.converToDateString(this.props.params.id);
+    console.log('this.props.', this.props.sheets[0]);
+
+    // this.props.dispatch(initialize('TimesheetNewForm', {
+    //   Mon: {monDev: '5', monQa: '6'}
+    // }));
+
+    const pickedString = convertToDateString(this.props.params.id);
     const {fields: {
-      Mon: {monDev, monQa},
+      Mon: {dev, monQa},
       Tue: {tueDev, tueQa},
       Wed: {wedDev, wedQa},
       Thur: {thurDev, thurQa},
@@ -79,7 +75,7 @@ class NewTimesheet2 extends Component {
                   <tbody>
                     <tr>
                       <td><div className="workType-width">Client App Dev.</div></td>
-                      <td><input type="number" className="input-width" {...monDev}/></td>
+                      <td><input type="number" className="input-width" {...dev}/></td>
                       <td><input type="number" className="input-width" {...tueDev}/></td>
                       <td><input type="number" className="input-width" {...wedDev}/></td>
                       <td><input type="number" className="input-width" {...thurDev}/></td>
@@ -119,17 +115,51 @@ NewTimesheet2.propTypes = {
   // fields: PropTypes.object,
   handleSubmit: PropTypes.func,
   fields: PropTypes.object,
-  createTimesheet2: PropTypes.func,
-  params: PropTypes.object
+  params: PropTypes.object,
+  fetchTest: PropTypes.func,
+  sheets: PropTypes.array
 };
 
 // connect: first argument is mapStateToProps, 2nd is mapDispatchToProps
 // reduxForm: 1st is form config, 2nd is mapStateToProps, 3rd is mapDispatchToProps
 
-export default reduxForm({
+function mapStateToProps(state) {
+  console.log('state.sheets.test', state.sheets.test[0]);
+  return {
+    sheets: state.sheets.test,
+    initialValues: {
+      Mon: state.sheets.test[0],
+      Tue: {tueDev: 4, tueQa: 4},
+      Wed: {wedDev: 4, wedQa: 4},
+      Thur: {thurDev: 4, thurQa: 4},
+      Fri: {friDev: 4, friQa: 4},
+      Sat: {satDev: 4, satQa: 4},
+      Sun: {sunDev: 4, sunQa: 4}
+    }
+  };
+}
+
+const TimesheetForm = reduxForm({
   form: 'TimesheetNewForm',
   fields: [
-    'Mon.monDev', 'Tue.tueDev', 'Wed.wedDev', 'Thur.thurDev', 'Fri.friDev', 'Sat.satDev', 'Sun.sunDev',
+    'Mon.dev', 'Tue.tueDev', 'Wed.wedDev', 'Thur.thurDev', 'Fri.friDev', 'Sat.satDev', 'Sun.sunDev',
     'Mon.monQa', 'Tue.tueQa', 'Wed.wedQa', 'Thur.thurQa', 'Fri.friQa', 'Sat.satQa', 'Sun.sunQa'
   ]
-}, null, {createTimesheet2})(NewTimesheet2);
+}
+, null, {createTimesheet2})(NewTimesheet2);
+
+export default connect(mapStateToProps, {fetchTest})(TimesheetForm);
+
+// function mapStateToProps(state) {
+//   return {sheets: state.sheets.test};
+// }
+
+// const TimesheetForm = reduxForm({
+//   form: 'TimesheetNewForm',
+//   fields: [
+//     'Mon.monDev', 'Tue.tueDev', 'Wed.wedDev', 'Thur.thurDev', 'Fri.friDev', 'Sat.satDev', 'Sun.sunDev',
+//     'Mon.monQa', 'Tue.tueQa', 'Wed.wedQa', 'Thur.thurQa', 'Fri.friQa', 'Sat.satQa', 'Sun.sunQa'
+//   ]
+// }, null, {createTimesheet2})(NewTimesheet2);
+
+// export default connect(mapStateToProps, {fetchTest})(TimesheetForm);

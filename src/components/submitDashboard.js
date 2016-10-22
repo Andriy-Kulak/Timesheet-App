@@ -1,21 +1,37 @@
 import React, {Component, PropTypes} from 'react';
 import {reduxForm} from 'redux-form';
 import {createTimesheet} from '../actions/time.actions';
-import {Link} from 'react-router';
-import {LinkContainer} from 'react-router-bootstrap';
+import moment from 'moment';
 
 class SubmitDashboard extends Component {
 
   onSubmit(props) {
     console.log('on Submit props', props);
-    this.props.createTimesheet(props);
     console.log('on Submit AFTER props', props);
-    this.context.router.push('/');
+    this.context.router.push(`/timesheet/test/week/${props.renderWeek}`);
+  }
+
+  // creates a monday date from October 3, 2016 to any date two weeks from today
+  // this is then referenced in uri and timesheet app to keep track of which week the user is on
+  getMondays() {
+    const monArray = [];
+    let i = moment('2016-10-03').format('YYYYMMDD');
+    while (i <= moment().add(2, 'week').format('YYYYMMDD')) {
+      monArray.push({value: i, monDate: moment(i).format('MM/DD/YYYY')});
+      console.log(i);
+      i = moment(i).add(1, 'week').format('YYYYMMDD');
+    }
+    console.log('monArray', monArray);
+
+    return monArray.map(data => {
+      return (
+        <option key={data.value} value={data.value}>Week of {data.monDate}</option>
+      );
+    });
   }
 
   render() {
     const {fields: {renderWeek}, handleSubmit} = this.props;
-      // {fields: {dateWorked, hoursWorked, workType}, handleSubmit}
     console.log('render this props', this.props);
     return (
       <div>
@@ -25,16 +41,10 @@ class SubmitDashboard extends Component {
             <div>
               <select {...renderWeek} value={renderWeek.value || ''}>
                 <option/>
-                <option value="10/17/2016">Week of 10/17/2016</option>
-                <option value="10/24/2016">Week of 10/24/2016</option>
-                <option value="10/31/2016">Week of 10/31/2016</option>
+                {this.getMondays()}
               </select>
             </div>
           </div>
-
-          <LinkContainer to={'/timesheet/test/week/20161017'}>
-            <strong>TESTEST</strong>
-          </LinkContainer>
 
           <button type="submit" className="btn btn-primary">Select</button>
         </form>
@@ -47,8 +57,11 @@ class SubmitDashboard extends Component {
 SubmitDashboard.propTypes = {
   fields: PropTypes.object,
   handleSubmit: PropTypes.func,
-  createTimesheet: PropTypes.func,
   children: PropTypes.object
+};
+
+SubmitDashboard.contextTypes = {
+  router: PropTypes.object
 };
 
 // connect: first argument is mapStateToProps, 2nd is mapDispatchToProps

@@ -47,6 +47,9 @@ class NavBar extends Component {
             <LinkContainer to="/timesheet/test/">
               <NavItem className="nav-link" eventKey={2}>Submit TEST</NavItem>
             </LinkContainer>
+            <LinkContainer to="/timesheet/test2/week/20161017">
+              <NavItem className="nav-link" eventKey={2}>Submit TEST Part 2</NavItem>
+            </LinkContainer>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

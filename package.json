@@ -29,6 +29,7 @@
     "babel-preset-stage-1": "^6.1.18",
     "lodash": "^3.10.1",
     "material-ui": "^0.16.0",
+    "moment": "^2.15.1",
     "react": "^15.1.0",
     "react-addons-create-fragment": "^15.1.0",
     "react-addons-shallow-compare": "^15.1.0",
@@ -42,7 +43,7 @@
     "react-tap-event-plugin": "^1.0.0",
     "redux": "^3.0.4",
     "redux-auth": "0.0.5-beta5",
-    "redux-form": "^5.3.3",
+    "redux-form": "^6.1.1",
     "redux-promise": "^0.5.1",
     "redux-thunk": "^2.1.0"
   },
