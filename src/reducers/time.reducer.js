@@ -1,4 +1,4 @@
-import {FETCH_TIMESHEET, FETCH_USER_DATA} from '../constants/time.constants';
+import {FETCH_TIMESHEET, FETCH_USER_DATA, FETCH_TIME_DATA} from '../constants/time.constants';
 const INITIAL_STATE = {all: [], user: null, test: []};
 
 export default function (state = INITIAL_STATE, action) {
@@ -7,6 +7,9 @@ export default function (state = INITIAL_STATE, action) {
       return {...state, user: action.payload};
     case FETCH_TIMESHEET:
       return {...state, all: action.payload};
+    case FETCH_TIME_DATA:
+      console.log('action.payload', action.payload);
+      return {...state, test: action.payload};
     default:
       return state;
   }

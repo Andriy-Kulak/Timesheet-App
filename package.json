@@ -29,6 +29,7 @@
     "babel-preset-stage-1": "^6.1.18",
     "lodash": "^3.10.1",
     "material-ui": "^0.16.0",
+    "moment": "^2.15.1",
     "react": "^15.1.0",
     "react-addons-create-fragment": "^15.1.0",
     "react-addons-shallow-compare": "^15.1.0",
