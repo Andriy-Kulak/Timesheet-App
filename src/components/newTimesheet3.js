@@ -1,8 +1,11 @@
 import React, {Component, PropTypes} from 'react';
 import {reduxForm, Field} from 'redux-form';
 import {createTimesheet2, fetchTest, convertToDateString, convertToDate} from '../actions/time.actions';
+import {parseJwt} from '../actions/auth.actions';
 import {Table, Grid, Col, Row} from 'react-bootstrap';
 import {connect} from 'react-redux';
+import moment from 'moment';
+import _ from 'lodash';
 
 class NewTimesheet3 extends Component {
   componentWillMount() {
@@ -14,7 +17,30 @@ class NewTimesheet3 extends Component {
     console.log('onSubmit this.props.params.id', this.props.params.id);
     const dayOne = this.props.params.id;
 
+    const userToken = localStorage.getItem('token');
+    const userInfo = parseJwt(userToken);
+
+    const monday = moment(this.props.params.id);
     console.log('on submit', props);
+    if (!props.mon._id || !props.tue._id || !props.wed._id || !props.thur._id || !props.fri._id || !props.sat._id || !props.sun._id) {
+      console.log('userInfo exits');
+      props.mon.userInfo = userInfo;
+      props.tue.userInfo = userInfo;
+      props.wed.userInfo = userInfo;
+      props.thur.userInfo = userInfo;
+      props.fri.userInfo = userInfo;
+      props.sat.userInfo = userInfo;
+      props.sun.userInfo = userInfo;
+
+      props.mon.dateWorked = convertToDate(dayOne, 0);
+      props.tue.dateWorked = convertToDate(dayOne, 1);
+      props.wed.dateWorked = convertToDate(dayOne, 2);
+      props.thur.dateWorked = convertToDate(dayOne, 3);
+      props.fri.dateWorked = convertToDate(dayOne, 4);
+      props.sat.dateWorked = convertToDate(dayOne, 5);
+      props.sun.dateWorked = convertToDate(dayOne, 6);
+    }
+
     // console.log('dayOne', dayOne);
     // console.log('convertToDate(dayOne, 0)', convertToDate(dayOne, 0));
     // console.log('the real date', props.mon.dateWorked);
