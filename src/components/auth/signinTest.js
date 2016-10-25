@@ -7,7 +7,7 @@ class Signin extends Component {
   handleFormSubmit({email, password}) {
 		// Need something to log user in
     console.log('test', email, password);
-    signinUser(email, password);
+    signinUser({email, password});
   }
 
   renderAlert() {
@@ -42,6 +42,7 @@ class Signin extends Component {
 }
 
 Signin.propTypes = {
+  signinUser: PropTypes.func,
   errorMessage: PropTypes.string,
   handleSubmit: PropTypes.func
 };
@@ -52,4 +53,4 @@ function mapStateToProps(state) {
 
 export default reduxForm({
   form: 'signin'
-}, mapStateToProps, {signinUser})(Signin);
+}, mapStateToProps, signinUser)(Signin);

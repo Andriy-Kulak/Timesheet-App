@@ -4,8 +4,6 @@ import {createTimesheet2, fetchTest, convertToDateString, convertToDate} from '.
 import {parseJwt} from '../actions/auth.actions';
 import {Table, Grid, Col, Row} from 'react-bootstrap';
 import {connect} from 'react-redux';
-import moment from 'moment';
-import _ from 'lodash';
 
 class NewTimesheet3 extends Component {
   componentWillMount() {
@@ -20,7 +18,6 @@ class NewTimesheet3 extends Component {
     const userToken = localStorage.getItem('token');
     const userInfo = parseJwt(userToken);
 
-    const monday = moment(this.props.params.id);
     console.log('on submit', props);
     if (!props.mon._id || !props.tue._id || !props.wed._id || !props.thur._id || !props.fri._id || !props.sat._id || !props.sun._id) {
       console.log('userInfo exits');
@@ -41,19 +38,6 @@ class NewTimesheet3 extends Component {
       props.sun.dateWorked = convertToDate(dayOne, 6);
     }
 
-    // console.log('dayOne', dayOne);
-    // console.log('convertToDate(dayOne, 0)', convertToDate(dayOne, 0));
-    // console.log('the real date', props.mon.dateWorked);
-
-    // if(!props.mon.dateWorked) {
-    //   props.mon.dateWorked = convertToDate(dayOne, 0);
-    // } 
-    // props.Tue.dateWorked = convertToDate(dayOne, 1);
-    // props.Wed.dateWorked = convertToDate(dayOne, 2);
-    // props.Thur.dateWorked = convertToDate(dayOne, 3);
-    // props.Fri.dateWorked = convertToDate(dayOne, 4);
-    // props.Sat.dateWorked = convertToDate(dayOne, 5);
-    // props.Sun.dateWorked = convertToDate(dayOne, 6);
     console.log('on submit', props);
     // this.props.fetchTest();
 
@@ -65,6 +49,8 @@ class NewTimesheet3 extends Component {
 
     const pickedString = convertToDateString(this.props.params.id);
     const {handleSubmit} = this.props;
+
+    console.log('render this props in Timesheet3', this.props);
 
     return (
       <div>
@@ -129,8 +115,7 @@ NewTimesheet3.contextTypes = {
 NewTimesheet3.propTypes = {
   handleSubmit: PropTypes.func,
   params: PropTypes.object,
-  fetchTest: PropTypes.func,
-  createTimesheet2: PropTypes.func
+  fetchTest: PropTypes.func
 };
 
 // connect: first argument is mapStateToProps, 2nd is mapDispatchToProps
@@ -150,9 +135,8 @@ function mapStateToProps(state) {
         sun: state.sheets.test[6]
       }
     };
-  } else {
-    return {};
   }
+  return {};
 }
 
 const TimesheetForm = reduxForm({

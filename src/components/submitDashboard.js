@@ -1,14 +1,14 @@
 import React, {Component, PropTypes} from 'react';
-import {reduxForm} from 'redux-form';
-import {createTimesheet} from '../actions/time.actions';
+import {reduxForm, Field} from 'redux-form';
+import {createTimesheet, fetchTest} from '../actions/time.actions';
 import moment from 'moment';
 
 class SubmitDashboard extends Component {
 
   onSubmit(props) {
-    console.log('on Submit props', props);
-    console.log('on Submit AFTER props', props);
-    this.context.router.push(`/timesheet/test/week/${props.renderWeek}`);
+    console.log('props.renderWeek', props.renderWeek);
+    this.context.router.push(`/timesheet/test2/week/${props.renderWeek}`);
+    fetchTest(props.renderWeek);
   }
 
   // creates a monday date from October 3, 2016 to any date two weeks from today
@@ -18,10 +18,8 @@ class SubmitDashboard extends Component {
     let i = moment('2016-10-03').format('YYYYMMDD');
     while (i <= moment().add(2, 'week').format('YYYYMMDD')) {
       monArray.push({value: i, monDate: moment(i).format('MM/DD/YYYY')});
-      console.log(i);
       i = moment(i).add(1, 'week').format('YYYYMMDD');
     }
-    console.log('monArray', monArray);
 
     return monArray.map(data => {
       return (
@@ -31,7 +29,7 @@ class SubmitDashboard extends Component {
   }
 
   render() {
-    const {fields: {renderWeek}, handleSubmit} = this.props;
+    const {handleSubmit} = this.props;
     console.log('render this props', this.props);
     return (
       <div>
@@ -39,10 +37,10 @@ class SubmitDashboard extends Component {
           <div>
             <label>Select a Week</label>
             <div>
-              <select {...renderWeek} value={renderWeek.value || ''}>
+              <Field name="renderWeek" component="select">
                 <option/>
                 {this.getMondays()}
-              </select>
+              </Field>
             </div>
           </div>
 
@@ -55,7 +53,6 @@ class SubmitDashboard extends Component {
 }
 
 SubmitDashboard.propTypes = {
-  fields: PropTypes.object,
   handleSubmit: PropTypes.func,
   children: PropTypes.object
 };
