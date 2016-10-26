@@ -1,44 +1,60 @@
 import React, {Component, PropTypes} from 'react';
 import {reduxForm, Field} from 'redux-form';
 import {createTimesheet2, fetchTest, convertToDateString, convertToDate} from '../actions/time.actions';
+import {parseJwt} from '../actions/auth.actions';
 import {Table, Grid, Col, Row} from 'react-bootstrap';
 import {connect} from 'react-redux';
 
 class NewTimesheet3 extends Component {
-  componentWillMount() {
-    this.props.fetchTest(this.props.params.id);
-    setTimeout(console.log('test', this.props), 3000);
+  componentWillUpdate(nextProps, nextState) {
+    console.log('nextParams', nextProps.params.id);
+    console.log('nextState', nextState);
+    console.log('this.props.params.id)', this.props.params.id);
+
+    fetchTest(nextProps.params.id);
+    // this.setState({
+    //   initialValues: {mon: 99}
+    // });
+    console.log('current not timeout PROPS', this.props);
   }
 
   onSubmit(props) {
-    console.log('onSubmit this.props.params.id', this.props.params.id);
+    // console.log('onSubmit this.props.params.id', this.props.params.id);
     const dayOne = this.props.params.id;
 
-    console.log('on submit', props);
-    // console.log('dayOne', dayOne);
-    // console.log('convertToDate(dayOne, 0)', convertToDate(dayOne, 0));
-    // console.log('the real date', props.mon.dateWorked);
+    const userToken = localStorage.getItem('token');
+    const userInfo = parseJwt(userToken);
 
-    // if(!props.mon.dateWorked) {
-    //   props.mon.dateWorked = convertToDate(dayOne, 0);
-    // } 
-    // props.Tue.dateWorked = convertToDate(dayOne, 1);
-    // props.Wed.dateWorked = convertToDate(dayOne, 2);
-    // props.Thur.dateWorked = convertToDate(dayOne, 3);
-    // props.Fri.dateWorked = convertToDate(dayOne, 4);
-    // props.Sat.dateWorked = convertToDate(dayOne, 5);
-    // props.Sun.dateWorked = convertToDate(dayOne, 6);
-    console.log('on submit', props);
-    // this.props.fetchTest();
+    // console.log('on submit', props);
+    if (!props.mon._id || !props.tue._id || !props.wed._id || !props.thur._id || !props.fri._id || !props.sat._id || !props.sun._id) {
+      console.log('userInfo exits');
+      props.mon.userInfo = userInfo;
+      props.tue.userInfo = userInfo;
+      props.wed.userInfo = userInfo;
+      props.thur.userInfo = userInfo;
+      props.fri.userInfo = userInfo;
+      props.sat.userInfo = userInfo;
+      props.sun.userInfo = userInfo;
+
+      props.mon.dateWorked = convertToDate(dayOne, 0);
+      props.tue.dateWorked = convertToDate(dayOne, 1);
+      props.wed.dateWorked = convertToDate(dayOne, 2);
+      props.thur.dateWorked = convertToDate(dayOne, 3);
+      props.fri.dateWorked = convertToDate(dayOne, 4);
+      props.sat.dateWorked = convertToDate(dayOne, 5);
+      props.sun.dateWorked = convertToDate(dayOne, 6);
+    }
+
+    // console.log('on submit', props);
 
     createTimesheet2(props);
   }
 
   render() {
     // console.log('this.props.', this.props);
-
+    console.log('this props in render', this.props);
     const pickedString = convertToDateString(this.props.params.id);
-    const {handleSubmit} = this.props;
+    const {handleSubmit, reset} = this.props;
 
     return (
       <div>
@@ -86,6 +102,7 @@ class NewTimesheet3 extends Component {
                   </tbody>
                 </Table>
                 <button type="submit">Submit</button>
+                <button type="button" onClick={reset}>Undo Changes</button>
               </form>
             </Col>
           </Row>
@@ -102,9 +119,7 @@ NewTimesheet3.contextTypes = {
 
 NewTimesheet3.propTypes = {
   handleSubmit: PropTypes.func,
-  params: PropTypes.object,
-  fetchTest: PropTypes.func,
-  createTimesheet2: PropTypes.func
+  params: PropTypes.object
 };
 
 // connect: first argument is mapStateToProps, 2nd is mapDispatchToProps
@@ -112,6 +127,7 @@ NewTimesheet3.propTypes = {
 
 function mapStateToProps(state) {
   if ((state.sheets.test.length > 0)) { // wait until state.sheets.test has a value
+    console.log('sheets test', state.sheets.test);
     return {
       sheets: state.sheets.test,
       initialValues: {
@@ -124,13 +140,13 @@ function mapStateToProps(state) {
         sun: state.sheets.test[6]
       }
     };
-  } else {
-    return {};
   }
+  return {};
 }
 
 const TimesheetForm = reduxForm({
-  form: 'TimesheetNewForm'
+  form: 'TimesheetNewForm',
+  enableReinitialize: true
 }
 , null, {createTimesheet2})(NewTimesheet3);
 

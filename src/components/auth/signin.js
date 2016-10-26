@@ -1,12 +1,15 @@
 import React, {Component, PropTypes} from 'react';
-import {reduxForm} from 'redux-form';
-import * as actions from '../../actions/auth.actions';
+import {reduxForm, Field} from 'redux-form';
+import {signinUser} from '../../actions/auth.actions';
+import {connect} from 'react-redux';
+import {Grid, Col, Row} from 'react-bootstrap';
 
 class Signin extends Component {
 	// used to take supplied inputs and check auth
   handleFormSubmit({email, password}) {
 		// Need something to log user in
-    this.props.signinUser({email, password});
+    console.log('test', email, password);
+    signinUser(email, password);
   }
 
   renderAlert() {
@@ -21,37 +24,42 @@ class Signin extends Component {
 
   render() {
 	// handleSubmit is a built in redux-form helper to bind ui to values
-    const {handleSubmit, fields: {email, password}} = this.props;
+    const {handleSubmit} = this.props;
 
     return (
-      <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-        <fieldset className="form-group">
-          <label>Email:</label>
-          <input {...email} type="text" required className="form-control"/>
-        </fieldset>
-        <fieldset className="form-group">
-          <label>Password:</label>
-          <input {...password} type="password" required className="form-control"/>
-        </fieldset>
-        {this.renderAlert()}
-        <button action="submit" className="btn btn-primary">Sign in</button>
-      </form>
+      <Grid>
+        <Row>
+          <Col mdOffset={4} md={4}>
+            <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+              <fieldset className="form-group">
+                <label>Email:</label>
+                <Field name="email" component="input" type="text" required className="form-control"/>
+              </fieldset>
+              <fieldset className="form-group">
+                <label>Password:</label>
+                <Field name="password" component="input" type="password" required className="form-control"/>
+              </fieldset>
+              {this.renderAlert()}
+              <button action="submit" className="btn btn-primary">Sign in</button>
+            </form>
+          </Col>
+        </Row>
+      </Grid>
 	);
   }
 }
 
 Signin.propTypes = {
-  signinUser: PropTypes.func,
   errorMessage: PropTypes.string,
-  handleSubmit: PropTypes.func,
-  fields: PropTypes.object
+  handleSubmit: PropTypes.func
 };
 
 function mapStateToProps(state) {
   return {errorMessage: state.auth.error};
 }
 
-export default reduxForm({
-  form: 'signin',
-  fields: ['email', 'password']
-}, mapStateToProps, actions)(Signin);
+const SigninForm = reduxForm({
+  form: 'signin'
+}, null, {signinUser})(Signin);
+
+export default connect(mapStateToProps)(SigninForm);
