@@ -69,16 +69,6 @@ export function fetchTest(selectedWeek) {
   const userInfo = parseJwt(userToken);
   console.log('test', userInfo.sub);
 
-<<<<<<< HEAD
-
-  const request = axios.get(`http://127.0.0.1:3090/api/v1/test/timesheet/${userInfo.sub}`);
-  return dispatch => {
-    request.then(({data}) => {
-      console.log('action data', data);
-      dispatch({type: FETCH_TIME_DATA, payload: data});
-    });
-  };
-=======
   console.log('selectedWeek', selectedWeek);
   const request = axios.get(`http://127.0.0.1:3090/api/v1/test/timesheet/${userInfo.sub}/${selectedWeek}`);
 
@@ -86,7 +76,6 @@ export function fetchTest(selectedWeek) {
     console.log('action data', data);
     return store.dispatch({type: FETCH_TIME_DATA, payload: data});
   });
->>>>>>> ui-redux
 }
 
 export function fetchUserData(id) {
