@@ -1,16 +1,19 @@
 import React, {Component, PropTypes} from 'react';
-import {reduxForm} from 'redux-form';
-import * as actions from '../../actions/auth.actions';
+import {reduxForm, Field} from 'redux-form';
+import {signupUser} from '../../actions/auth.actions';
+import {connect} from 'react-redux';
 
 class Signup extends Component {
   handleFormSubmit(formProps) {
 		// Call action creator to sign up user!
-    this.props.signupUser(formProps);
     console.log('signup user component', formProps);
+    signupUser(formProps);
   }
 
   renderAlert() {
+    console.log('BEFORE return render alert', this.props);
     if (this.props.errorMessage) {
+      console.log('past the return render alert', this.props.errorMessage);
       return (
         <div className="alert alert-danger">
           <strong>Oops!</strong> {this.props.errorMessage}
@@ -20,32 +23,29 @@ class Signup extends Component {
   }
 
   render() {
-    const {handleSubmit, fields: {firstName, lastName, email, password, passwordConfirm}} = this.props;
+    const {handleSubmit} = this.props;
 
     return (
       <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
         <fieldset className="form-group">
           <label>First Name:</label>
-          <input {...firstName} className="form-control"/>
+          <Field name="firstName" component="input" className="form-control"/>
         </fieldset>
         <fieldset className="form-group">
           <label>Last Name:</label>
-          <input {...lastName} className="form-control"/>
+          <Field name="lastName" component="input" className="form-control"/>
         </fieldset>
         <fieldset className="form-group">
           <label>Email:</label>
-          <input {...email} className="form-control"/>
-          {email.touched && email.error && <div className="error">{email.error}</div>}
+          <Field name="email" component="input" className="form-control"/>
         </fieldset>
         <fieldset className="form-group">
           <label>Password:</label>
-          <input {...password} className="form-control" type="password"/>
-          {password.touched && password.error && <div className="error">{password.error}</div>}
+          <Field name="password" component="input" className="form-control" type="password"/>
         </fieldset>
         <fieldset className="form-group">
           <label>Confirm Password:</label>
-          <input {...passwordConfirm} className="form-control" type="password"/>
-          {passwordConfirm.touched && passwordConfirm.error && <div className="error">{passwordConfirm.error}</div>}
+          <Field name="passwordConfirm" component="input" className="form-control" type="password"/>
         </fieldset>
         {this.renderAlert()}
         <button action="submit" className="btn btn-primary">Signup!</button>
@@ -82,18 +82,21 @@ Signup.propTypes = {
 };
 
 function mapStateToProps(state) {
+  console.log('state auth error', state.auth.error);
   return {errorMessage: state.auth.error};
 }
 
-export default reduxForm({
-  form: 'signup',
-  fields: [
-    'firstName',
-    'lastName',
-    'email',
-    'password',
-    'passwordConfirm'
-  ],
-  validate
-}, mapStateToProps, actions)(Signup);
+const SignUpForm = reduxForm({
+  form: 'signup'
+  // , validate
+}, null, {signupUser})(Signup);
+
+
+export default connect(mapStateToProps)(SignUpForm);
 // actions is always the third argument
+
+
+// {touched && error && <div className="error">{errors.email}</div>}
+
+// {password.touched && password.error && <div className="error">{password.error}</div>}
+//  {passwordConfirm.touched && passwordConfirm.error && <div className="error">{passwordConfirm.error}</div>}
