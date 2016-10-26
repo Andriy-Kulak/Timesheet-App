@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {reduxForm, Field} from 'redux-form';
-import {createTimesheet, fetchTest} from '../actions/time.actions';
+import {createTimesheet} from '../actions/time.actions';
 import moment from 'moment';
 
 class SubmitDashboard extends Component {
@@ -8,7 +8,6 @@ class SubmitDashboard extends Component {
   onSubmit(props) {
     console.log('props.renderWeek', props.renderWeek);
     this.context.router.push(`/timesheet/test2/week/${props.renderWeek}`);
-    fetchTest(props.renderWeek);
   }
 
   // creates a monday date from October 3, 2016 to any date two weeks from today

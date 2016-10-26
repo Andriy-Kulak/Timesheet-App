@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {FETCH_TIMESHEET, CREATE_TIMESHEET, FETCH_USER_DATA, DELETE_TIMESHEET, ROOT_URL, FETCH_TIME_DATA} from '../constants/time.constants';
 import {parseJwt} from '../actions/auth.actions';
+import {store} from '../index';
 
 export function fetchTimesheetData() {
   const request = axios.get(ROOT_URL);
@@ -62,18 +63,18 @@ export function createTimesheet2(props) {
 }
 
 export function fetchTest(selectedWeek) {
+  console.log('pass');
   const userToken = localStorage.getItem('token');
   const userInfo = parseJwt(userToken);
   console.log('test', userInfo.sub);
 
   console.log('selectedWeek', selectedWeek);
   const request = axios.get(`http://127.0.0.1:3090/api/v1/test/timesheet/${userInfo.sub}/${selectedWeek}`);
-  return dispatch => {
-    request.then(({data}) => {
-      console.log('action data', data);
-      dispatch({type: FETCH_TIME_DATA, payload: data});
-    });
-  };
+
+  request.then(({data}) => {
+    console.log('action data', data);
+    return store.dispatch({type: FETCH_TIME_DATA, payload: data});
+  });
 }
 
 export function fetchUserData(id) {

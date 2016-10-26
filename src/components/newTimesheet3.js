@@ -6,19 +6,26 @@ import {Table, Grid, Col, Row} from 'react-bootstrap';
 import {connect} from 'react-redux';
 
 class NewTimesheet3 extends Component {
-  componentWillMount() {
-    this.props.fetchTest(this.props.params.id);
-    setTimeout(console.log('test', this.props), 3000);
+  componentWillUpdate(nextProps, nextState) {
+    console.log('nextParams', nextProps.params.id);
+    console.log('nextState', nextState);
+    console.log('this.props.params.id)', this.props.params.id);
+
+    fetchTest(nextProps.params.id);
+    // this.setState({
+    //   initialValues: {mon: 99}
+    // });
+    console.log('current not timeout PROPS', this.props);
   }
 
   onSubmit(props) {
-    console.log('onSubmit this.props.params.id', this.props.params.id);
+    // console.log('onSubmit this.props.params.id', this.props.params.id);
     const dayOne = this.props.params.id;
 
     const userToken = localStorage.getItem('token');
     const userInfo = parseJwt(userToken);
 
-    console.log('on submit', props);
+    // console.log('on submit', props);
     if (!props.mon._id || !props.tue._id || !props.wed._id || !props.thur._id || !props.fri._id || !props.sat._id || !props.sun._id) {
       console.log('userInfo exits');
       props.mon.userInfo = userInfo;
@@ -38,19 +45,16 @@ class NewTimesheet3 extends Component {
       props.sun.dateWorked = convertToDate(dayOne, 6);
     }
 
-    console.log('on submit', props);
-    // this.props.fetchTest();
+    // console.log('on submit', props);
 
     createTimesheet2(props);
   }
 
   render() {
     // console.log('this.props.', this.props);
-
+    console.log('this props in render', this.props);
     const pickedString = convertToDateString(this.props.params.id);
-    const {handleSubmit} = this.props;
-
-    console.log('render this props in Timesheet3', this.props);
+    const {handleSubmit, reset} = this.props;
 
     return (
       <div>
@@ -98,6 +102,7 @@ class NewTimesheet3 extends Component {
                   </tbody>
                 </Table>
                 <button type="submit">Submit</button>
+                <button type="button" onClick={reset}>Undo Changes</button>
               </form>
             </Col>
           </Row>
@@ -114,8 +119,7 @@ NewTimesheet3.contextTypes = {
 
 NewTimesheet3.propTypes = {
   handleSubmit: PropTypes.func,
-  params: PropTypes.object,
-  fetchTest: PropTypes.func
+  params: PropTypes.object
 };
 
 // connect: first argument is mapStateToProps, 2nd is mapDispatchToProps
@@ -123,6 +127,7 @@ NewTimesheet3.propTypes = {
 
 function mapStateToProps(state) {
   if ((state.sheets.test.length > 0)) { // wait until state.sheets.test has a value
+    console.log('sheets test', state.sheets.test);
     return {
       sheets: state.sheets.test,
       initialValues: {
@@ -140,7 +145,8 @@ function mapStateToProps(state) {
 }
 
 const TimesheetForm = reduxForm({
-  form: 'TimesheetNewForm'
+  form: 'TimesheetNewForm',
+  enableReinitialize: true
 }
 , null, {createTimesheet2})(NewTimesheet3);
 

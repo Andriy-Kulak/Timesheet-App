@@ -2,11 +2,10 @@ import React, {Component, PropTypes} from 'react';
 import {reduxForm, Field} from 'redux-form';
 import {signupUser} from '../../actions/auth.actions';
 import {connect} from 'react-redux';
+import {Grid, Col, Row} from 'react-bootstrap';
 
 class Signup extends Component {
   handleFormSubmit(formProps) {
-		// Call action creator to sign up user!
-    console.log('signup user component', formProps);
     signupUser(formProps);
   }
 
@@ -25,31 +24,34 @@ class Signup extends Component {
   render() {
     const {handleSubmit} = this.props;
 
+    const renderField = ({input, label, type, meta: {touched, error}}) => (
+      <div>
+        <fieldset className="form-group">
+          <label>{label}</label>
+          <div>
+            <input {...input} type={type} className="form-control"/>
+            {touched && ((error && <span className="red-text">{error}</span>))}
+          </div>
+        </fieldset>
+      </div>
+    );
+
     return (
-      <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-        <fieldset className="form-group">
-          <label>First Name:</label>
-          <Field name="firstName" component="input" className="form-control"/>
-        </fieldset>
-        <fieldset className="form-group">
-          <label>Last Name:</label>
-          <Field name="lastName" component="input" className="form-control"/>
-        </fieldset>
-        <fieldset className="form-group">
-          <label>Email:</label>
-          <Field name="email" component="input" className="form-control"/>
-        </fieldset>
-        <fieldset className="form-group">
-          <label>Password:</label>
-          <Field name="password" component="input" className="form-control" type="password"/>
-        </fieldset>
-        <fieldset className="form-group">
-          <label>Confirm Password:</label>
-          <Field name="passwordConfirm" component="input" className="form-control" type="password"/>
-        </fieldset>
-        {this.renderAlert()}
-        <button action="submit" className="btn btn-primary">Signup!</button>
-      </form>
+      <Grid>
+        <Row>
+          <Col mdOffset={4} md={4}>
+            <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+              <Field name="firstName" label="First Name" type="text" component={renderField}/>
+              <Field name="lastName" label="Last Name" type="text" component={renderField}/>
+              <Field name="email" label="Email" type="email" component={renderField}/>
+              <Field name="password" label="Password" type="password" component={renderField}/>
+              <Field name="passwordConfirm" label="Confirm Password" type="password" component={renderField}/>
+              {this.renderAlert()}
+              <button action="submit" className="btn btn-primary">Signup!</button>
+            </form>
+          </Col>
+        </Row>
+      </Grid>
 	);
   }
 }
@@ -57,8 +59,13 @@ class Signup extends Component {
 // form validation rules
 function validate(formProps) {
   const errors = {};
+  if (!formProps.firstName) {
+    errors.firstName = 'Please enter first name';
+  }
 
-	// TODOx: iterate over with forEach loop for remaining values to prevent repetitive code as well as the form itself
+  if (!formProps.lastName) {
+    errors.lastName = 'Please enter last name';
+  }
 
   if (!formProps.email) {
     errors.email = 'Please enter an email';
@@ -71,32 +78,26 @@ function validate(formProps) {
     errors.passwordConfirm = 'Passwords must match';
   }
 
+  if (formProps.password !== formProps.passwordConfirm) {
+    errors.passwordConfirm = 'Passwords must match';
+  }
+
   return errors;
 }
 
 Signup.propTypes = {
-  signupUser: PropTypes.func,
   errorMessage: PropTypes.string,
-  handleSubmit: PropTypes.func,
-  fields: PropTypes.object
+  handleSubmit: PropTypes.func
 };
 
 function mapStateToProps(state) {
-  console.log('state auth error', state.auth.error);
+  console.log('state auth error', state);
   return {errorMessage: state.auth.error};
 }
 
 const SignUpForm = reduxForm({
-  form: 'signup'
-  // , validate
+  form: 'signup',
+  validate
 }, null, {signupUser})(Signup);
 
-
 export default connect(mapStateToProps)(SignUpForm);
-// actions is always the third argument
-
-
-// {touched && error && <div className="error">{errors.email}</div>}
-
-// {password.touched && password.error && <div className="error">{password.error}</div>}
-//  {passwordConfirm.touched && passwordConfirm.error && <div className="error">{passwordConfirm.error}</div>}
