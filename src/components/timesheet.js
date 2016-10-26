@@ -1,17 +1,17 @@
 import React, {Component, PropTypes} from 'react';
 import {reduxForm, Field} from 'redux-form';
-import {createTimesheet2, fetchTest, convertToDateString, convertToDate} from '../actions/time.actions';
+import {createTimesheet, fetchTimehsheet, convertToDateString, convertToDate} from '../actions/time.actions';
 import {parseJwt} from '../actions/auth.actions';
 import {Table, Grid, Col, Row} from 'react-bootstrap';
 import {connect} from 'react-redux';
 
 class Timesheet extends Component {
   componentDidMount() {
-    fetchTest(this.props.params.id);
+    fetchTimehsheet(this.props.params.id);
   }
 
   componentWillReceiveProps(nextProps) {
-    fetchTest(nextProps.params.id);
+    fetchTimehsheet(nextProps.params.id);
   }
 
   onSubmit(props) {
@@ -39,7 +39,7 @@ class Timesheet extends Component {
       props.sun.dateWorked = convertToDate(dayOne, 6);
     }
 
-    createTimesheet2(props);
+    createTimesheet(props);
   }
 
   render() {
@@ -93,8 +93,8 @@ class Timesheet extends Component {
                     </tr>
                   </tbody>
                 </Table>
-                <button type="submit">Submit</button>
-                <button type="button" onClick={reset}>Undo Changes</button>
+                <button type="submit" className="btn btn-primary">Submit</button>
+                <button type="button" className="btn btn-warning" onClick={reset}>Undo Changes</button>
               </form>
             </Col>
           </Row>
@@ -119,18 +119,17 @@ Timesheet.propTypes = {
 // reduxForm: 1st is form config, 2nd is mapStateToProps, 3rd is mapDispatchToProps
 
 function mapStateToProps(state) {
-  if ((state.sheets.test.length > 0)) { // wait until state.sheets.test has a value
-    console.log('sheets test', state.sheets.test);
+  if ((state.sheets.data.length > 0)) { // wait until state.sheets.data has a value
     return {
-      sheets: state.sheets.test,
+      sheets: state.sheets.data,
       initialValues: {
-        mon: state.sheets.test[0],
-        tue: state.sheets.test[1],
-        wed: state.sheets.test[2],
-        thur: state.sheets.test[3],
-        fri: state.sheets.test[4],
-        sat: state.sheets.test[5],
-        sun: state.sheets.test[6]
+        mon: state.sheets.data[0],
+        tue: state.sheets.data[1],
+        wed: state.sheets.data[2],
+        thur: state.sheets.data[3],
+        fri: state.sheets.data[4],
+        sat: state.sheets.data[5],
+        sun: state.sheets.data[6]
       }
     };
   }
@@ -141,6 +140,6 @@ const TimesheetForm = reduxForm({
   form: 'TimesheetNewForm',
   enableReinitialize: true
 }
-, null, {createTimesheet2})(Timesheet);
+, null, {createTimesheet})(Timesheet);
 
-export default connect(mapStateToProps, {fetchTest})(TimesheetForm);
+export default connect(mapStateToProps, {fetchTimehsheet})(TimesheetForm);

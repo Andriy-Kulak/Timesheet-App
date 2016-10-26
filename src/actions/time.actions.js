@@ -3,6 +3,7 @@ import {FETCH_TIMESHEET, CREATE_TIMESHEET, FETCH_USER_DATA, DELETE_TIMESHEET, RO
 import {parseJwt} from '../actions/auth.actions';
 import {store} from '../index';
 
+// Old API endpoint
 export function fetchTimesheetData() {
   const request = axios.get(ROOT_URL);
   return dispatch => {
@@ -12,49 +13,24 @@ export function fetchTimesheetData() {
   };
 }
 
+// Old api endpoint
+// export function createTimesheet(props) {
+//   console.log('create action hit after', props);
+//   const userToken = localStorage.getItem('token');
+//   const userInfo = parseJwt(userToken);
+
+//   props.userInfo = userInfo;
+
+//   const request = axios.post(ROOT_URL, props);
+//   console.log('create action hit after', props);
+//   return {
+//     type: CREATE_TIMESHEET,
+//     payload: request
+//   };
+// }
+
+// updated API endpoints
 export function createTimesheet(props) {
-  console.log('create action hit after', props);
-  const userToken = localStorage.getItem('token');
-  const userInfo = parseJwt(userToken);
-
-  props.userInfo = userInfo;
-
-  const request = axios.post(ROOT_URL, props);
-  console.log('create action hit after', props);
-  return {
-    type: CREATE_TIMESHEET,
-    payload: request
-  };
-}
-
-export function createTimesheet2(props) {
-  console.log('hit action');
-  // const userToken = localStorage.getItem('token');
-  // const userInfo = parseJwt(userToken);
-
-  console.log('props[0].userInfo', props.mon._id);
-  // if (!props.mon._id || !props.tue._id) {
-  //   console.log('userInfo exits');
-  //   props.mon.userInfo = userInfo;
-  //   props.tue.userInfo = userInfo;
-  //   props.wed.userInfo = userInfo;
-  //   props.thur.userInfo = userInfo;
-  //   props.fri.userInfo = userInfo;
-  //   props.sat.userInfo = userInfo;
-  //   props.sun.userInfo = userInfo;
-
-  // }
-
-  // if new entry, need to make sure userInfo and date worked is added
-  // props.map(function (obj) {
-  //   obj.userInfo = userInfo;
-  //   console.log('object', obj);
-  //   return obj;
-  // }
-  // );
-
-  console.log('create action hit after', props);
-
   const request = axios.post('http://127.0.0.1:3090/api/v1/test/timesheet/', props);
   return {
     type: CREATE_TIMESHEET,
@@ -62,7 +38,8 @@ export function createTimesheet2(props) {
   };
 }
 
-export function fetchTest(selectedWeek) {
+// NEW  API endpooint
+export function fetchTimehsheet(selectedWeek) {
   console.log('pass');
   const userToken = localStorage.getItem('token');
   const userInfo = parseJwt(userToken);
