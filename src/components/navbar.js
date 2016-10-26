@@ -26,9 +26,6 @@ class NavBar extends Component {
             <IndexLinkContainer to="/">
               <NavItem className="nav-link" eventKey={1}>Dashboard</NavItem>
             </IndexLinkContainer>
-            <LinkContainer to="/timesheet/new">
-              <NavItem className="nav-link" eventKey={2}>Submit Time</NavItem>
-            </LinkContainer>
             <LinkContainer to="/user/57f959eb24553d437c4c75bd">
               <NavItem className="nav-link" eventKey={3}>Andriy Time</NavItem>
             </LinkContainer>
@@ -44,11 +41,8 @@ class NavBar extends Component {
               <LinkContainer to="/signup">
                 <NavItem className="nav-link">Sign Up</NavItem>
               </LinkContainer>}
-            <LinkContainer to="/timesheet/test2/">
-              <NavItem className="nav-link" eventKey={2}>Submit TEST</NavItem>
-            </LinkContainer>
-            <LinkContainer to="/timesheet/test2/week/20161017">
-              <NavItem className="nav-link" eventKey={2}>Submit TEST Part 2</NavItem>
+            <LinkContainer to="/timesheet/">
+              <NavItem className="nav-link" eventKey={2}>My Timesheet</NavItem>
             </LinkContainer>
           </Nav>
         </Navbar.Collapse>

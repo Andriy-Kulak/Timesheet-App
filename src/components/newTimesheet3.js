@@ -6,20 +6,15 @@ import {Table, Grid, Col, Row} from 'react-bootstrap';
 import {connect} from 'react-redux';
 
 class NewTimesheet3 extends Component {
-  componentWillUpdate(nextProps, nextState) {
-    console.log('nextParams', nextProps.params.id);
-    console.log('nextState', nextState);
-    console.log('this.props.params.id)', this.props.params.id);
+  componentDidMount() {
+    fetchTest(this.props.params.id);
+  }
 
+  componentWillReceiveProps(nextProps) {
     fetchTest(nextProps.params.id);
-    // this.setState({
-    //   initialValues: {mon: 99}
-    // });
-    console.log('current not timeout PROPS', this.props);
   }
 
   onSubmit(props) {
-    // console.log('onSubmit this.props.params.id', this.props.params.id);
     const dayOne = this.props.params.id;
 
     const userToken = localStorage.getItem('token');
@@ -27,7 +22,6 @@ class NewTimesheet3 extends Component {
 
     // console.log('on submit', props);
     if (!props.mon._id || !props.tue._id || !props.wed._id || !props.thur._id || !props.fri._id || !props.sat._id || !props.sun._id) {
-      console.log('userInfo exits');
       props.mon.userInfo = userInfo;
       props.tue.userInfo = userInfo;
       props.wed.userInfo = userInfo;
@@ -44,8 +38,6 @@ class NewTimesheet3 extends Component {
       props.sat.dateWorked = convertToDate(dayOne, 5);
       props.sun.dateWorked = convertToDate(dayOne, 6);
     }
-
-    // console.log('on submit', props);
 
     createTimesheet2(props);
   }
@@ -119,7 +111,8 @@ NewTimesheet3.contextTypes = {
 
 NewTimesheet3.propTypes = {
   handleSubmit: PropTypes.func,
-  params: PropTypes.object
+  params: PropTypes.object,
+  reset: PropTypes.func
 };
 
 // connect: first argument is mapStateToProps, 2nd is mapDispatchToProps

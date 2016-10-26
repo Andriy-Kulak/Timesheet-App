@@ -2,12 +2,13 @@ import React, {Component, PropTypes} from 'react';
 import {reduxForm, Field} from 'redux-form';
 import {createTimesheet} from '../actions/time.actions';
 import moment from 'moment';
+import {Grid, Col, Row} from 'react-bootstrap';
 
 class SubmitDashboard extends Component {
 
   onSubmit(props) {
     console.log('props.renderWeek', props.renderWeek);
-    this.context.router.push(`/timesheet/test2/week/${props.renderWeek}`);
+    this.context.router.push(`/timesheet/week/${props.renderWeek}`);
   }
 
   // creates a monday date from October 3, 2016 to any date two weeks from today
@@ -31,22 +32,28 @@ class SubmitDashboard extends Component {
     const {handleSubmit} = this.props;
     console.log('render this props', this.props);
     return (
-      <div>
-        <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
-          <div>
-            <label>Select a Week</label>
-            <div>
-              <Field name="renderWeek" component="select">
-                <option/>
-                {this.getMondays()}
-              </Field>
-            </div>
-          </div>
 
-          <button type="submit" className="btn btn-primary">Select</button>
-        </form>
-        {this.props.children}
-      </div>
+      <Grid>
+        <Row>
+          <Col mdOffset={2} md={2}>
+            <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+              <div>
+                <label>Select a Week</label>
+                <div>
+                  <Field name="renderWeek" component="select">
+                    <option/>
+                    {this.getMondays()}
+                  </Field>
+                </div>
+              </div>
+              <button type="submit" className="btn btn-primary">Select</button>
+            </form>
+          </Col>
+          <Col md={4}>
+            {this.props.children}
+          </Col>
+        </Row>
+      </Grid>
     );
   }
 }

@@ -16,16 +16,17 @@ import newTimesheet3 from './components/newTimesheet3';
 export default (
   <Route path="/" component={App}>
     <IndexRoute component={DashboardIndex}/>
-    <Route path="timesheet/new" component={NewTimesheet}/>
+   
     <Route path="user/:id" component={UserData}/>
     <Route path="signup" component={Signup}/>
     <Route path="signin" component={Signin}/>
     <Route path="signout" component={Signout}/>
 
-    <Route path="timesheet/test2/" component={SubmitDashboard}>
+    <Route path="timesheet/" component={SubmitDashboard}>
       <Route path="week/:id" component={newTimesheet3}/>
     </Route>
   </Route>
 );
 
 //     <Route path="timesheet/test2/week/:id" component={newTimesheet3}/>
+ // <Route path="timesheet/new" component={NewTimesheet}/>
