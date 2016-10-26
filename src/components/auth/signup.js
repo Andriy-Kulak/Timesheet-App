@@ -91,7 +91,6 @@ Signup.propTypes = {
 };
 
 function mapStateToProps(state) {
-  console.log('state auth error', state);
   return {errorMessage: state.auth.error};
 }
 

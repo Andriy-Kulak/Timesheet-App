@@ -1,25 +1,20 @@
 import React, {Component, PropTypes} from 'react';
 import {reduxForm, Field} from 'redux-form';
-import {createTimesheet2, fetchTest, convertToDateString, convertToDate} from '../actions/time.actions';
+import {createTimesheet, fetchTimehsheet, convertToDateString, convertToDate} from '../actions/time.actions';
 import {parseJwt} from '../actions/auth.actions';
 import {Table, Grid, Col, Row} from 'react-bootstrap';
 import {connect} from 'react-redux';
 
-class NewTimesheet3 extends Component {
-  componentWillUpdate(nextProps, nextState) {
-    console.log('nextParams', nextProps.params.id);
-    console.log('nextState', nextState);
-    console.log('this.props.params.id)', this.props.params.id);
+class Timesheet extends Component {
+  componentDidMount() {
+    fetchTimehsheet(this.props.params.id);
+  }
 
-    fetchTest(nextProps.params.id);
-    // this.setState({
-    //   initialValues: {mon: 99}
-    // });
-    console.log('current not timeout PROPS', this.props);
+  componentWillReceiveProps(nextProps) {
+    fetchTimehsheet(nextProps.params.id);
   }
 
   onSubmit(props) {
-    // console.log('onSubmit this.props.params.id', this.props.params.id);
     const dayOne = this.props.params.id;
 
     const userToken = localStorage.getItem('token');
@@ -27,7 +22,6 @@ class NewTimesheet3 extends Component {
 
     // console.log('on submit', props);
     if (!props.mon._id || !props.tue._id || !props.wed._id || !props.thur._id || !props.fri._id || !props.sat._id || !props.sun._id) {
-      console.log('userInfo exits');
       props.mon.userInfo = userInfo;
       props.tue.userInfo = userInfo;
       props.wed.userInfo = userInfo;
@@ -45,9 +39,7 @@ class NewTimesheet3 extends Component {
       props.sun.dateWorked = convertToDate(dayOne, 6);
     }
 
-    // console.log('on submit', props);
-
-    createTimesheet2(props);
+    createTimesheet(props);
   }
 
   render() {
@@ -99,10 +91,40 @@ class NewTimesheet3 extends Component {
                       <td><Field name="sat.qa" type="number" component="input" className="input-width"/></td>
                       <td><Field name="sun.qa" type="number" component="input" className="input-width"/></td>
                     </tr>
+                    <tr>
+                      <td><div className="workType-width">Admin</div></td>
+                      <td><Field name="mon.admin" type="number" component="input" className="input-width"/></td>
+                      <td><Field name="tue.admin" type="number" component="input" className="input-width"/></td>
+                      <td><Field name="wed.admin" type="number" component="input" className="input-width"/></td>
+                      <td><Field name="thur.admin" type="number" component="input" className="input-width"/></td>
+                      <td><Field name="fri.admin" type="number" component="input" className="input-width"/></td>
+                      <td><Field name="sat.admin" type="number" component="input" className="input-width"/></td>
+                      <td><Field name="sun.admin" type="number" component="input" className="input-width"/></td>
+                    </tr>
+                    <tr>
+                      <td><div className="workType-width">R&D</div></td>
+                      <td><Field name="mon.rd" type="number" component="input" className="input-width"/></td>
+                      <td><Field name="tue.rd" type="number" component="input" className="input-width"/></td>
+                      <td><Field name="wed.rd" type="number" component="input" className="input-width"/></td>
+                      <td><Field name="thur.rd" type="number" component="input" className="input-width"/></td>
+                      <td><Field name="fri.rd" type="number" component="input" className="input-width"/></td>
+                      <td><Field name="sat.rd" type="number" component="input" className="input-width"/></td>
+                      <td><Field name="sun.rd" type="number" component="input" className="input-width"/></td>
+                    </tr>
+                    <tr>
+                      <td><div className="workType-width">Other</div></td>
+                      <td><Field name="mon.other" type="number" component="input" className="input-width"/></td>
+                      <td><Field name="tue.other" type="number" component="input" className="input-width"/></td>
+                      <td><Field name="wed.other" type="number" component="input" className="input-width"/></td>
+                      <td><Field name="thur.other" type="number" component="input" className="input-width"/></td>
+                      <td><Field name="fri.other" type="number" component="input" className="input-width"/></td>
+                      <td><Field name="sat.other" type="number" component="input" className="input-width"/></td>
+                      <td><Field name="sun.other" type="number" component="input" className="input-width"/></td>
+                    </tr>
                   </tbody>
                 </Table>
-                <button type="submit">Submit</button>
-                <button type="button" onClick={reset}>Undo Changes</button>
+                <button type="submit" className="btn btn-primary">Submit</button>
+                <button type="button" className="btn btn-warning" onClick={reset}>Undo Changes</button>
               </form>
             </Col>
           </Row>
@@ -113,31 +135,31 @@ class NewTimesheet3 extends Component {
   }
 }
 
-NewTimesheet3.contextTypes = {
+Timesheet.contextTypes = {
   router: PropTypes.object
 };
 
-NewTimesheet3.propTypes = {
+Timesheet.propTypes = {
   handleSubmit: PropTypes.func,
-  params: PropTypes.object
+  params: PropTypes.object,
+  reset: PropTypes.func
 };
 
 // connect: first argument is mapStateToProps, 2nd is mapDispatchToProps
 // reduxForm: 1st is form config, 2nd is mapStateToProps, 3rd is mapDispatchToProps
 
 function mapStateToProps(state) {
-  if ((state.sheets.test.length > 0)) { // wait until state.sheets.test has a value
-    console.log('sheets test', state.sheets.test);
+  if ((state.sheets.data.length > 0)) { // wait until state.sheets.data has a value
     return {
-      sheets: state.sheets.test,
+      sheets: state.sheets.data,
       initialValues: {
-        mon: state.sheets.test[0],
-        tue: state.sheets.test[1],
-        wed: state.sheets.test[2],
-        thur: state.sheets.test[3],
-        fri: state.sheets.test[4],
-        sat: state.sheets.test[5],
-        sun: state.sheets.test[6]
+        mon: state.sheets.data[0],
+        tue: state.sheets.data[1],
+        wed: state.sheets.data[2],
+        thur: state.sheets.data[3],
+        fri: state.sheets.data[4],
+        sat: state.sheets.data[5],
+        sun: state.sheets.data[6]
       }
     };
   }
@@ -148,6 +170,6 @@ const TimesheetForm = reduxForm({
   form: 'TimesheetNewForm',
   enableReinitialize: true
 }
-, null, {createTimesheet2})(NewTimesheet3);
+, null, {createTimesheet})(Timesheet);
 
-export default connect(mapStateToProps, {fetchTest})(TimesheetForm);
+export default connect(mapStateToProps, {fetchTimehsheet})(TimesheetForm);
