@@ -91,6 +91,36 @@ class Timesheet extends Component {
                       <td><Field name="sat.qa" type="number" component="input" className="input-width"/></td>
                       <td><Field name="sun.qa" type="number" component="input" className="input-width"/></td>
                     </tr>
+                    <tr>
+                      <td><div className="workType-width">Admin</div></td>
+                      <td><Field name="mon.admin" type="number" component="input" className="input-width"/></td>
+                      <td><Field name="tue.admin" type="number" component="input" className="input-width"/></td>
+                      <td><Field name="wed.admin" type="number" component="input" className="input-width"/></td>
+                      <td><Field name="thur.admin" type="number" component="input" className="input-width"/></td>
+                      <td><Field name="fri.admin" type="number" component="input" className="input-width"/></td>
+                      <td><Field name="sat.admin" type="number" component="input" className="input-width"/></td>
+                      <td><Field name="sun.admin" type="number" component="input" className="input-width"/></td>
+                    </tr>
+                    <tr>
+                      <td><div className="workType-width">R&D</div></td>
+                      <td><Field name="mon.rd" type="number" component="input" className="input-width"/></td>
+                      <td><Field name="tue.rd" type="number" component="input" className="input-width"/></td>
+                      <td><Field name="wed.rd" type="number" component="input" className="input-width"/></td>
+                      <td><Field name="thur.rd" type="number" component="input" className="input-width"/></td>
+                      <td><Field name="fri.rd" type="number" component="input" className="input-width"/></td>
+                      <td><Field name="sat.rd" type="number" component="input" className="input-width"/></td>
+                      <td><Field name="sun.rd" type="number" component="input" className="input-width"/></td>
+                    </tr>
+                    <tr>
+                      <td><div className="workType-width">Other</div></td>
+                      <td><Field name="mon.other" type="number" component="input" className="input-width"/></td>
+                      <td><Field name="tue.other" type="number" component="input" className="input-width"/></td>
+                      <td><Field name="wed.other" type="number" component="input" className="input-width"/></td>
+                      <td><Field name="thur.other" type="number" component="input" className="input-width"/></td>
+                      <td><Field name="fri.other" type="number" component="input" className="input-width"/></td>
+                      <td><Field name="sat.other" type="number" component="input" className="input-width"/></td>
+                      <td><Field name="sun.other" type="number" component="input" className="input-width"/></td>
+                    </tr>
                   </tbody>
                 </Table>
                 <button type="submit" className="btn btn-primary">Submit</button>
