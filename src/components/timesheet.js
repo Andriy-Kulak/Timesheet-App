@@ -5,7 +5,7 @@ import {parseJwt} from '../actions/auth.actions';
 import {Table, Grid, Col, Row} from 'react-bootstrap';
 import {connect} from 'react-redux';
 
-class NewTimesheet3 extends Component {
+class Timesheet extends Component {
   componentDidMount() {
     fetchTest(this.props.params.id);
   }
@@ -105,11 +105,11 @@ class NewTimesheet3 extends Component {
   }
 }
 
-NewTimesheet3.contextTypes = {
+Timesheet.contextTypes = {
   router: PropTypes.object
 };
 
-NewTimesheet3.propTypes = {
+Timesheet.propTypes = {
   handleSubmit: PropTypes.func,
   params: PropTypes.object,
   reset: PropTypes.func
@@ -141,6 +141,6 @@ const TimesheetForm = reduxForm({
   form: 'TimesheetNewForm',
   enableReinitialize: true
 }
-, null, {createTimesheet2})(NewTimesheet3);
+, null, {createTimesheet2})(Timesheet);
 
 export default connect(mapStateToProps, {fetchTest})(TimesheetForm);

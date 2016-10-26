@@ -23,7 +23,6 @@ class Signin extends Component {
   }
 
   render() {
-	// handleSubmit is a built in redux-form helper to bind ui to values
     const {handleSubmit} = this.props;
 
     return (

@@ -21,6 +21,7 @@ class SubmitDashboard extends Component {
       i = moment(i).add(1, 'week').format('YYYYMMDD');
     }
 
+    console.log('render this props', this.props.params.id);
     return monArray.map(data => {
       return (
         <option key={data.value} value={data.value}>Week of {data.monDate}</option>
@@ -30,7 +31,9 @@ class SubmitDashboard extends Component {
 
   render() {
     const {handleSubmit} = this.props;
-    console.log('render this props', this.props);
+
+    const weekTaken = this.props.params.id;
+
     return (
 
       <Grid>
@@ -41,7 +44,8 @@ class SubmitDashboard extends Component {
                 <label>Select a Week</label>
                 <div>
                   <Field name="renderWeek" component="select">
-                    <option/>
+                    {weekTaken && <option value="this.props.params.id">Week of {moment(weekTaken).format('MM/DD/YYYY')}</option>}
+                    {!weekTaken && <option/>}
                     {this.getMondays()}
                   </Field>
                 </div>
@@ -60,7 +64,8 @@ class SubmitDashboard extends Component {
 
 SubmitDashboard.propTypes = {
   handleSubmit: PropTypes.func,
-  children: PropTypes.object
+  children: PropTypes.object,
+  params: PropTypes.object
 };
 
 SubmitDashboard.contextTypes = {
