@@ -1,6 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {LinkContainer, IndexLinkContainer} from 'react-router-bootstrap';
+import {parseJwt} from '../actions/auth.actions';
+
 
 import {
   Nav,
@@ -10,8 +12,12 @@ import {
 
 class NavBar extends Component {
 
+
+
   render() {
     const {authenticated} = this.props;
+    const userToken = localStorage.getItem('token');
+    const userInfo = parseJwt(userToken);
 
     return (
       <Navbar>
@@ -26,7 +32,13 @@ class NavBar extends Component {
             <IndexLinkContainer to="/">
               <NavItem className="nav-link" eventKey={1}>Dashboard</NavItem>
             </IndexLinkContainer>
-            <LinkContainer to="/user/57f959eb24553d437c4c75bd">
+            <LinkContainer to="/chart">
+              <NavItem className="nav-link" eventKey={3}>Chart</NavItem>
+            </LinkContainer>
+            <LinkContainer to="/test">
+              <NavItem className="nav-link" eventKey={3}>User TEST</NavItem>
+            </LinkContainer>
+            <LinkContainer to={{pathname: `/user/${userInfo.sub}`}}>
               <NavItem className="nav-link" eventKey={3}>Summary</NavItem>
             </LinkContainer>
             <LinkContainer to="/timesheet/">
@@ -62,5 +74,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(NavBar);
-
-// parseJwt(localStorage.getItem('token')).firstName

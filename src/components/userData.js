@@ -37,7 +37,7 @@ class UserData extends Component {
       <Grid>
         <Row>
           <Col mdOffset={2} md={8}>
-            <h3>Timesheet for: {this.props.time[0].userInfo.firstName} {this.props.time[0].userInfo.lastName}</h3>
+            {this.props.time[0] && <h3>Timesheet for: {this.props.time[0].userInfo.firstName} {this.props.time[0].userInfo.lastName}</h3>}
             <Table responsive bordered condensed hover>
               <thead>
                 <tr>

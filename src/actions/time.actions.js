@@ -36,9 +36,19 @@ export function fetchTimesheetData() {
   };
 }
 
+// // fetching timesheet data by user
+// export function fetchUserData(id) {
+//   const request = axios.get(`${ROOT_URL}/user/${id}`);
+//   return dispatch => {
+//     request.then(({data}) => {
+//       dispatch({type: FETCH_USER_DATA, payload: data});
+//     });
+//   };
+// }
+
 // fetching timesheet data by user
 export function fetchUserData(id) {
-  const request = axios.get(`${ROOT_URL}/user/${id}`);
+  const request = axios.get(`http://localhost:3090/api/v2/test/${id}`);
   return dispatch => {
     request.then(({data}) => {
       dispatch({type: FETCH_USER_DATA, payload: data});
