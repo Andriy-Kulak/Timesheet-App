@@ -1,9 +1,32 @@
 import axios from 'axios';
-import {FETCH_TIMESHEET, CREATE_TIMESHEET, FETCH_USER_DATA, DELETE_TIMESHEET, ROOT_URL, FETCH_TIME_DATA} from '../constants/time.constants';
+import {FETCH_TIMESHEET, CREATE_TIMESHEET, FETCH_USER_DATA, ROOT_URL, FETCH_TIME_DATA} from '../constants/time.constants';
 import {parseJwt} from '../actions/auth.actions';
 import {store} from '../index';
 
-// Old API endpoint
+const userToken = localStorage.getItem('token');
+const userInfo = parseJwt(userToken); // gets userID
+
+// updated API endpoints
+export function createTimesheet(props) {
+  const request = axios.post(ROOT_URL, props);
+  return {
+    type: CREATE_TIMESHEET,
+    payload: request
+  };
+}
+
+// for fetching specific timesheet data by user and week
+export function fetchTimehsheet(selectedWeek) {
+  console.log('selectedWeek', selectedWeek);
+  const request = axios.get(`${ROOT_URL}/${userInfo.sub}/${selectedWeek}`);
+
+  request.then(({data}) => {
+    console.log('action data', data);
+    return store.dispatch({type: FETCH_TIME_DATA, payload: data});
+  });
+}
+
+// fetching all of the available hours
 export function fetchTimesheetData() {
   const request = axios.get(ROOT_URL);
   return dispatch => {
@@ -13,63 +36,13 @@ export function fetchTimesheetData() {
   };
 }
 
-// Old api endpoint
-// export function createTimesheet(props) {
-//   console.log('create action hit after', props);
-//   const userToken = localStorage.getItem('token');
-//   const userInfo = parseJwt(userToken);
-
-//   props.userInfo = userInfo;
-
-//   const request = axios.post(ROOT_URL, props);
-//   console.log('create action hit after', props);
-//   return {
-//     type: CREATE_TIMESHEET,
-//     payload: request
-//   };
-// }
-
-// updated API endpoints
-export function createTimesheet(props) {
-  const request = axios.post('http://127.0.0.1:3090/api/v1/test/timesheet/', props);
-  return {
-    type: CREATE_TIMESHEET,
-    payload: request
-  };
-}
-
-// NEW  API endpooint
-export function fetchTimehsheet(selectedWeek) {
-  console.log('pass');
-  const userToken = localStorage.getItem('token');
-  const userInfo = parseJwt(userToken);
-  console.log('test', userInfo.sub);
-
-  console.log('selectedWeek', selectedWeek);
-  const request = axios.get(`http://127.0.0.1:3090/api/v1/test/timesheet/${userInfo.sub}/${selectedWeek}`);
-
-  request.then(({data}) => {
-    console.log('action data', data);
-    return store.dispatch({type: FETCH_TIME_DATA, payload: data});
-  });
-}
-
+// fetching timesheet data by user
 export function fetchUserData(id) {
-  const request = axios.get(`${ROOT_URL}${id}`);
+  const request = axios.get(`${ROOT_URL}/user/${id}`);
   return dispatch => {
     request.then(({data}) => {
       dispatch({type: FETCH_USER_DATA, payload: data});
     });
-  };
-}
-
-// not being used for now
-export function deleteTime(id) {
-  const request = axios.delete(`${ROOT_URL}${id}`);
-
-  return {
-    type: DELETE_TIMESHEET,
-    payload: request
   };
 }
 
