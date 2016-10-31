@@ -6,6 +6,7 @@ import moment from 'moment';
 const LineChart = require('react-chartjs').Line;
 const BarChart = require('react-chartjs').Line;
 import {parseJwt} from '../actions/auth.actions';
+import _ from 'lodash';
 
 class UserTest extends Component {
 
@@ -85,51 +86,13 @@ class UserTest extends Component {
       offsetGridLines: false
     };
 
-    const chartData = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-      datasets: [
-        {
-          label: 'My First dataset',
-          fillColor: 'rgba(0, 64, 255,0.0)',
-          strokeColor: 'rgba(0, 64, 255,1)',
-          pointColor: 'rgba(0, 64, 255,1)',
-          pointStrokeColor: '#fff',
-          pointHighlightFill: '#fff',
-          pointHighlightStroke: 'rgba(0, 64, 255,1)',
-          data: [65, 59, 80, 81, 56, 55, 40]
-        },
-        {
-          label: 'My Second dataset',
-          fillColor: 'rgba(255, 0, 0,0.0)',
-          strokeColor: 'rgba(255, 0, 0,1)',
-          pointColor: 'rgba(255, 0, 0,1)',
-          pointStrokeColor: '#fff',
-          pointHighlightFill: '#fff',
-          pointHighlightStroke: 'rgba(255, 0, 0,1)',
-          data: [28, 48, 40, 19, 86, 27, 90]
-        },
-        {
-          label: 'My Third dataset',
-          fillColor: 'rgba(0, 255, 128,0.0)',
-          strokeColor: 'rgba(0, 255, 128,1)',
-          pointColor: 'rgba(0, 255, 128,1)',
-          pointStrokeColor: '#fff',
-          pointHighlightFill: '#fff',
-          pointHighlightStroke: 'rgba(0, 255, 128,1)',
-          data: [15, 15, 35, 45, 55, 30, 20]
-        },
-        {
-          label: 'My Fourth dataset',
-          fillColor: 'rgba(134, 121, 121,0.0)',
-          strokeColor: 'rgba(134, 121, 121,1)',
-          pointColor: 'rgba(134, 121, 121,1)',
-          pointStrokeColor: '#fff',
-          pointHighlightFill: '#fff',
-          pointHighlightStroke: 'rgba(134, 121, 121,1)',
-          data: [22, 22, 14, 25, 35, 28, 17]
-        }
-      ]
-    };
+    const devArray = [];
+    const qaArray = [];
+    const rdArray = [];
+    const adminArray = [];
+    const otherArray = [];
+    const datesArray = [];
+    const totalArray = [];
 
     const {time} = this.props;
     console.log('time', time);
@@ -137,22 +100,17 @@ class UserTest extends Component {
       return <div>Loading...</div>;
     }
 
-    const devArray = [];
-    const qaArray = [];
-    const rdArray = [];
-    const adminArray = [];
-    const otherArray = [];
-    const datesArray = [];
-
     if (time) {
-      time.map(function (obj) {
+      time.map(obj => {
         devArray.push(obj.dev);
         qaArray.push(obj.qa);
         rdArray.push(obj.rd);
         adminArray.push(obj.admin);
         otherArray.push(obj.other);
-        datesArray.push(obj.dateWorked);
-
+        totalArray.push(obj.total);
+        datesArray.push('Week of ' + moment(obj.weekOf).format('MM/DD/YYYY'));
+        // datesArray.push(moment(obj.dateWorked).format('MM/DD/YYY'));
+        return obj;
       });
     }
     console.log('1', devArray);
@@ -161,7 +119,63 @@ class UserTest extends Component {
     console.log('4', adminArray);
     console.log('5', otherArray);
     console.log('6', datesArray);
+    console.log('6', totalArray);
 
+    const chartData = {
+      labels: datesArray,
+      datasets: [
+        {
+          label: 'Dev Work',
+          fillColor: 'rgba(0, 64, 255,0.0)',
+          strokeColor: 'rgba(0, 64, 255,1)',
+          pointColor: 'rgba(0, 64, 255,1)',
+          pointStrokeColor: '#fff',
+          pointHighlightFill: '#fff',
+          pointHighlightStroke: 'rgba(0, 64, 255,1)',
+          data: devArray
+        },
+        {
+          label: 'QA',
+          fillColor: 'rgba(255, 0, 0,0.0)',
+          strokeColor: 'rgba(255, 0, 0,1)',
+          pointColor: 'rgba(255, 0, 0,1)',
+          pointStrokeColor: '#fff',
+          pointHighlightFill: '#fff',
+          pointHighlightStroke: 'rgba(255, 0, 0,1)',
+          data: qaArray
+        },
+        {
+          label: 'Research & Development',
+          fillColor: 'rgba(0, 255, 128,0.0)',
+          strokeColor: 'rgba(0, 255, 128,1)',
+          pointColor: 'rgba(0, 255, 128,1)',
+          pointStrokeColor: '#fff',
+          pointHighlightFill: '#fff',
+          pointHighlightStroke: 'rgba(0, 255, 128,1)',
+          data: rdArray
+        },
+        {
+          label: 'Admin',
+          fillColor: 'rgba(134, 121, 121,0.0)',
+          strokeColor: 'rgba(134, 121, 121,1)',
+          pointColor: 'rgba(134, 121, 121,1)',
+          pointStrokeColor: '#fff',
+          pointHighlightFill: '#fff',
+          pointHighlightStroke: 'rgba(134, 121, 121,1)',
+          data: adminArray
+        },
+        {
+          label: 'Total',
+          fillColor: 'rgba(134, 121, 121,0.0)',
+          strokeColor: 'rgba(134, 121, 121,1)',
+          pointColor: 'rgba(134, 121, 121,1)',
+          pointStrokeColor: '#fff',
+          pointHighlightFill: '#fff',
+          pointHighlightStroke: 'rgba(134, 121, 121,1)',
+          data: totalArray
+        }
+      ]
+    };
 
     return (
       <Grid>
