@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {FETCH_TIMESHEET, CREATE_TIMESHEET, FETCH_USER_DATA, ROOT_URL, FETCH_TIME_DATA} from '../constants/time.constants';
+import {FETCH_TIMESHEET, CREATE_TIMESHEET, FETCH_USER_DATA, ROOT_URL, FETCH_USERS, FETCH_TIME_DATA} from '../constants/time.constants';
 import {parseJwt} from '../actions/auth.actions';
 import {store} from '../index';
 
@@ -49,6 +49,26 @@ export function fetchTimesheetData() {
 // fetching timesheet data by user
 export function fetchUserData(id) {
   const request = axios.get(`http://localhost:3090/api/v2/test/${id}`);
+  return dispatch => {
+    request.then(({data}) => {
+      dispatch({type: FETCH_USER_DATA, payload: data});
+    });
+  };
+}
+
+// fetch userData
+export function fetchUsers() {
+  const request = axios.get(`http://localhost:3090/api/v2/users`);
+
+  request.then(({data}) => {
+    console.log('fetchUsers', data);
+    return store.dispatch({type: FETCH_USERS, payload: data});
+  });
+}
+
+// fetching timesheet data by user
+export function fetchAllData() {
+  const request = axios.get(`http://localhost:3090/api/v2/test/`);
   return dispatch => {
     request.then(({data}) => {
       dispatch({type: FETCH_USER_DATA, payload: data});

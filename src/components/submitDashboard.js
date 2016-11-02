@@ -8,6 +8,7 @@ class SubmitDashboard extends Component {
 
   onSubmit(props) {
     console.log('props.renderWeek', props.renderWeek);
+    console.log('this.context', this.context);
     this.context.router.push(`/timesheet/week/${props.renderWeek}`);
   }
 

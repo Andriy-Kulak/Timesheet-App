@@ -6,3 +6,4 @@ export const DELETE_TIMESHEET = 'DELETE_TIMESHEET';
 export const ROOT_URL = 'http://127.0.0.1:3090/api/v2/timesheet';
 export const FETCH_TEST = 'FETCH_TEST';
 export const FETCH_TIME_DATA = 'FETCH_TIME_DATA';
+export const FETCH_USERS = 'FETCH_USERS';

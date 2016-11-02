@@ -42,6 +42,7 @@
     "react-router": "^2.0.0-rc5",
     "react-router-bootstrap": "^0.23.1",
     "react-router-redux": "^4.0.6",
+    "react-select": "^1.0.0-rc.2",
     "react-tap-event-plugin": "^1.0.0",
     "redux": "^3.0.4",
     "redux-auth": "0.0.5-beta5",

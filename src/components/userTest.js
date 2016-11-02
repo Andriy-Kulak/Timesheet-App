@@ -1,27 +1,34 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {fetchUserData} from '../actions/time.actions';
+import {fetchUserData, fetchUsers} from '../actions/time.actions';
 import {Table, Grid, Col, Row} from 'react-bootstrap';
 import moment from 'moment';
 const LineChart = require('react-chartjs').Line;
-const BarChart = require('react-chartjs').Line;
 import {parseJwt} from '../actions/auth.actions';
-import _ from 'lodash';
+import Select from 'react-select';
+import {browserHistory} from 'react-router';
 
 class UserTest extends Component {
 
-  componentWillMount() {
-    const userToken = localStorage.getItem('token');
-    const userInfo = parseJwt(userToken);
-    console.log('userInfo', userInfo);
-    this.props.fetchUserData(userInfo.sub);
+  componentDidMount() {
+    this.props.fetchUserData(this.props.params.id);
+    fetchUsers();
   }
+
+  // componentWillReceiveProps(nextProps) {
+  //   console.log('nextProps', nextProps);
+  //   // console.log('nextProps', nextProps.params.user);
+  //   if (nextProps.params.id) {
+  //     console.log('pass');
+  //     this.props.fetchUserData(nextProps.params.id);
+  //   }
+  // }
 
   renderRows() {
     return this.props.time.map(data => {
       return (
         <tr key={data._id}>
-          <td>{moment(data.dateWorked).format('MM/DD/YYYY')}</td>
+          <td>{moment(data.weekOf).format('MM/DD/YYYY')}</td>
           <td>{data.admin}</td>
           <td>{data.dev}</td>
           <td>{data.qa}</td>
@@ -95,7 +102,6 @@ class UserTest extends Component {
     const totalArray = [];
 
     const {time} = this.props;
-    console.log('time', time);
     if (!time) {
       return <div>Loading...</div>;
     }
@@ -113,13 +119,13 @@ class UserTest extends Component {
         return obj;
       });
     }
-    console.log('1', devArray);
-    console.log('2', rdArray);
-    console.log('3', qaArray);
-    console.log('4', adminArray);
-    console.log('5', otherArray);
-    console.log('6', datesArray);
-    console.log('6', totalArray);
+    // console.log('1', devArray);
+    // console.log('2', rdArray);
+    // console.log('3', qaArray);
+    // console.log('4', adminArray);
+    // console.log('5', otherArray);
+    // console.log('6', datesArray);
+    // console.log('6', totalArray);
 
     const chartData = {
       labels: datesArray,
@@ -156,31 +162,67 @@ class UserTest extends Component {
         },
         {
           label: 'Admin',
-          fillColor: 'rgba(134, 121, 121,0.0)',
-          strokeColor: 'rgba(134, 121, 121,1)',
-          pointColor: 'rgba(134, 121, 121,1)',
+          fillColor: 'rgba(255, 0, 191, 0.0)',
+          strokeColor: 'rgba(255, 0, 191, 1)',
+          pointColor: 'rgba(255, 0, 191, 1)',
           pointStrokeColor: '#fff',
           pointHighlightFill: '#fff',
-          pointHighlightStroke: 'rgba(134, 121, 121,1)',
+          pointHighlightStroke: 'rgba(255, 0, 191, 1)',
           data: adminArray
         },
         {
-          label: 'Total',
+          label: 'Other',
           fillColor: 'rgba(134, 121, 121,0.0)',
           strokeColor: 'rgba(134, 121, 121,1)',
           pointColor: 'rgba(134, 121, 121,1)',
           pointStrokeColor: '#fff',
           pointHighlightFill: '#fff',
           pointHighlightStroke: 'rgba(134, 121, 121,1)',
+          data: otherArray
+        },
+        {
+          label: 'Total',
+          fillColor: 'rgba(0, 0, 0, 0.0)',
+          strokeColor: 'rgba(0, 0, 0, 1)',
+          pointColor: 'rgba(0, 0, 0, 1)',
+          pointStrokeColor: '#fff',
+          pointHighlightFill: '#fff',
+          pointHighlightStroke: 'rgba(0, 0, 0, 1)',
           data: totalArray
         }
       ]
     };
 
+    let options = [];
+    if (this.props.userOptions.length > 0) {
+      options = this.props.userOptions;
+    }
+
+    function logChange(val) {
+      console.log('test', val);
+      console.log('this.props log Change', this.props);
+      console.log('string', this.context);
+      // this.context.router.push(`/test/${val.value}`);
+      // console.log('nextProps log change' nextProps);
+      // this.props.params.user = val.value;
+      // fetchUserData(val.value);
+      browserHistory.push(`/test/${val.value}`);
+      console.log('Selected: ' + val.value);
+    }
+
+    console.log('outside props', this.props);
     return (
       <Grid>
         <Row>
-          <Col mdOffset={2} md={8}>
+          <Col md={2}>
+            <Select
+              name="form-field-name"
+              value="test"
+              options={options}
+              onChange={logChange}
+              />
+          </Col>
+          <Col md={8}>
 
             <h4>Average Hours Spent Working at Pixel Intel Inc.</h4>
             <LineChart data={chartData} options={chartOptions} width="600" height="250"/>
@@ -188,12 +230,12 @@ class UserTest extends Component {
             <Table responsive bordered condensed hover>
               <thead>
                 <tr>
-                  <th>Date Worked</th>
+                  <th>Week Of:</th>
                   <th>Admin</th>
                   <th>Dev Work</th>
                   <th>QA</th>
                   <th>R&D</th>
-                  <th>R&D</th>
+                  <th>Other</th>
                 </tr>
               </thead>
               <tbody>
@@ -207,13 +249,21 @@ class UserTest extends Component {
   }
 }
 
+UserTest.contextTypes = {
+  router: PropTypes.object
+};
+
 function mapStateToProps(state) {
-  return {time: state.sheets.user};
+  return {
+    time: state.sheets.user,
+    userOptions: state.sheets.allUsersInfo
+  };
 }
 
 UserTest.propTypes = {
   time: PropTypes.array,
   fetchUserData: PropTypes.func,
+  userOptions: PropTypes.array,
   params: PropTypes.object
 };
 

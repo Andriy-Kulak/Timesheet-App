@@ -16,7 +16,7 @@ export default (
   <Route path="/" component={App}>
     <IndexRoute component={DashboardIndex}/>
     <Route path="chart" component={DashboardTest}/>
-    <Route path="test" component={UserTest}/>
+    <Route path="test/:id" component={UserTest}/>
     <Route path="user/:id" component={UserData}/>
     <Route path="signup" component={Signup}/>
     <Route path="signin" component={Signin}/>

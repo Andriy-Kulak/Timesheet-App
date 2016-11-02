@@ -35,7 +35,7 @@ class NavBar extends Component {
             <LinkContainer to="/chart">
               <NavItem className="nav-link" eventKey={3}>Chart</NavItem>
             </LinkContainer>
-            <LinkContainer to="/test">
+            <LinkContainer to={{pathname: `/test/${userInfo.sub}`}}>
               <NavItem className="nav-link" eventKey={3}>User TEST</NavItem>
             </LinkContainer>
             <LinkContainer to={{pathname: `/user/${userInfo.sub}`}}>
