@@ -7,6 +7,11 @@ import moment from 'moment';
 const LineChart = require('react-chartjs').Line;
 const BarChart = require('react-chartjs').Line;
 
+import Select from 'react-select';
+
+// Be sure to include styles at some point, probably during your bootstrapping
+import 'react-select/dist/react-select.css';
+
 class DashboardTest extends Component {
   componentWillMount() {
     this.props.fetchTimesheetData();

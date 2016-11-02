@@ -10,17 +10,22 @@ import Signout from './components/auth/signout';
 import SubmitDashboard from './components/submitDashboard';
 import Timesheet from './components/timesheet';
 import DashboardTest from './components/dashboardTest';
-import UserTest from './components/userTest';
+import UserSelect from './components/userDashboard/userSelect';
+import UserTest from './components/userDashboard/userTest';
 
 export default (
   <Route path="/" component={App}>
     <IndexRoute component={DashboardIndex}/>
     <Route path="chart" component={DashboardTest}/>
-    <Route path="test/:id" component={UserTest}/>
+    
     <Route path="user/:id" component={UserData}/>
     <Route path="signup" component={Signup}/>
     <Route path="signin" component={Signin}/>
     <Route path="signout" component={Signout}/>
+
+    <Route path="test/" component={UserSelect}>
+      <Route path=":id" component={UserTest}/>
+    </Route>
 
     <Route path="timesheet/" component={SubmitDashboard}>
       <Route path="week/:id" component={Timesheet}/>

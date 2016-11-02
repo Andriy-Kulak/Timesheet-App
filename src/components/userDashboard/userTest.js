@@ -1,28 +1,27 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {fetchUserData, fetchUsers} from '../actions/time.actions';
-import {Table, Grid, Col, Row} from 'react-bootstrap';
+import {fetchUserData, fetchUsers} from '../../actions/time.actions';
+import {Table, Col, Row} from 'react-bootstrap';
 import moment from 'moment';
 const LineChart = require('react-chartjs').Line;
-import {parseJwt} from '../actions/auth.actions';
-import Select from 'react-select';
-import {browserHistory} from 'react-router';
+import {parseJwt} from '../../actions/auth.actions';
 
 class UserTest extends Component {
 
   componentDidMount() {
+    console.log('render userTEs');
     this.props.fetchUserData(this.props.params.id);
     fetchUsers();
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   console.log('nextProps', nextProps);
-  //   // console.log('nextProps', nextProps.params.user);
-  //   if (nextProps.params.id) {
-  //     console.log('pass');
-  //     this.props.fetchUserData(nextProps.params.id);
-  //   }
-  // }
+  componentWillReceiveProps(nextProps) {
+    console.log('nextProps', nextProps);
+    // console.log('nextProps', nextProps.params.user);
+    if (nextProps.params.id !== this.props.params.id) {
+      console.log('pass');
+      this.props.fetchUserData(nextProps.params.id);
+    }
+  }
 
   renderRows() {
     return this.props.time.map(data => {
@@ -85,9 +84,6 @@ class UserTest extends Component {
 
       // Boolean - Whether to fill the dataset with a colour
       datasetFill: true,
-
-      // String - A legend template
-      legendTemplate: "<ul className=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></span></li><%}%></ul>",
 
       // Boolean - Whether to horizontally center the label and point dot inside the grid
       offsetGridLines: false
@@ -193,40 +189,13 @@ class UserTest extends Component {
       ]
     };
 
-    let options = [];
-    if (this.props.userOptions.length > 0) {
-      options = this.props.userOptions;
-    }
-
-    function logChange(val) {
-      console.log('test', val);
-      console.log('this.props log Change', this.props);
-      console.log('string', this.context);
-      // this.context.router.push(`/test/${val.value}`);
-      // console.log('nextProps log change' nextProps);
-      // this.props.params.user = val.value;
-      // fetchUserData(val.value);
-      browserHistory.push(`/test/${val.value}`);
-      console.log('Selected: ' + val.value);
-    }
-
     console.log('outside props', this.props);
     return (
-      <Grid>
+      <div>
+        <h4>User Average Hours Spent Working at Pixel Intel Inc.</h4>
+        <LineChart data={chartData} options={chartOptions} generateLegend width="600" height="250"/>
         <Row>
-          <Col md={2}>
-            <Select
-              name="form-field-name"
-              value="test"
-              options={options}
-              onChange={logChange}
-              />
-          </Col>
-          <Col md={8}>
-
-            <h4>Average Hours Spent Working at Pixel Intel Inc.</h4>
-            <LineChart data={chartData} options={chartOptions} width="600" height="250"/>
-
+          <Col mdOffset={2} md={8}>
             <Table responsive bordered condensed hover>
               <thead>
                 <tr>
@@ -244,7 +213,7 @@ class UserTest extends Component {
             </Table>
           </Col>
         </Row>
-      </Grid>
+      </div>
     );
   }
 }

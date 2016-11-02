@@ -13,3 +13,45 @@ form a {
 .red-text {
   color: red;
 }
+
+.blue-color {
+  color: rgb(0, 64, 255);
+}
+
+.green-color {
+ background-color: rgb(0, 255, 128);
+}
+
+.black-color {
+ background-color: rgb(0, 0, 0);
+}
+
+.red-color {
+ background-color: rgb(255, 0, 0);
+}
+
+.purple-color {
+ background-color: rgb(255, 0, 191);
+}
+
+.grey-color {
+ background-color: rgb(134, 121, 121);
+}
+
+.legend-text {
+  font-size: 12px;
+}
+
+.legend-subHeader {
+  margin-bottom: 0px;
+  margin-top: 0px;
+  font-size: 12px;
+}
+
+.legend-header {
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgba(134, 121, 121, 0.5);
+  text-align: center;
+  margin-bottom: 0px;
+}
