@@ -48,6 +48,7 @@ export function fetchTimesheetData() {
 
 // fetching timesheet data by user
 export function fetchUserData(id) {
+  // if request is for all users, then return all users
   if (id === 'all') {
     const request = axios.get(`http://localhost:3090/api/v2/test`);
     return dispatch => {

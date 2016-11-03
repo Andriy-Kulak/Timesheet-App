@@ -14,10 +14,6 @@ form a {
   color: red;
 }
 
-.blue-color {
-  color: rgb(0, 64, 255);
-}
-
 .green-color {
  background-color: rgb(0, 255, 128);
 }
@@ -36,6 +32,10 @@ form a {
 
 .grey-color {
  background-color: rgb(134, 121, 121);
+}
+
+.blue-color {
+  background-color: rgb(0, 64, 255);
 }
 
 .legend-text {
