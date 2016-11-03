@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {reduxForm, Field} from 'redux-form';
-import {createTimesheet, fetchTimehsheet, convertToDateString, convertToDate} from '../actions/time.actions';
-import {parseJwt} from '../actions/auth.actions';
+import {createTimesheet, fetchTimehsheet, convertToDateString, convertToDate} from '../../actions/time.actions';
+import {parseJwt} from '../../actions/auth.actions';
 import {Table, Grid, Col, Row} from 'react-bootstrap';
 import {connect} from 'react-redux';
 

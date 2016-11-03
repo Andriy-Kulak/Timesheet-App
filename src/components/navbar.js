@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import {LinkContainer, IndexLinkContainer} from 'react-router-bootstrap';
 import {parseJwt} from '../actions/auth.actions';
 
-
 import {
   Nav,
   NavItem,
@@ -12,15 +11,13 @@ import {
 
 class NavBar extends Component {
 
-
-
   render() {
     const {authenticated} = this.props;
     const userToken = localStorage.getItem('token');
     const userInfo = parseJwt(userToken);
 
     return (
-      <Navbar>
+      <Navbar className="react-navbar" inverse>
         <Navbar.Header>
           <Navbar.Brand>
             <a href="/">Timesheet App</a>
@@ -30,16 +27,13 @@ class NavBar extends Component {
         <Navbar.Collapse>
           <Nav>
             <IndexLinkContainer to="/">
-              <NavItem className="nav-link" eventKey={1}>Dashboard</NavItem>
+              <NavItem className="nav-link" eventKey={1}>Home</NavItem>
             </IndexLinkContainer>
-            <LinkContainer to="/chart">
-              <NavItem className="nav-link" eventKey={3}>Chart</NavItem>
-            </LinkContainer>
-            <LinkContainer to={{pathname: `/test/${userInfo.sub}`}}>
-              <NavItem className="nav-link" eventKey={3}>User TEST</NavItem>
+            <LinkContainer to={{pathname: `/chart/${userInfo.sub}`}}>
+              <NavItem className="nav-link" eventKey={3}>Dashboard</NavItem>
             </LinkContainer>
             <LinkContainer to={{pathname: `/user/${userInfo.sub}`}}>
-              <NavItem className="nav-link" eventKey={3}>Summary</NavItem>
+              <NavItem className="nav-link" eventKey={3}>My Summary</NavItem>
             </LinkContainer>
             <LinkContainer to="/timesheet/">
               <NavItem className="nav-link" eventKey={2}>My Timesheet</NavItem>
@@ -73,4 +67,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(NavBar);
+export default connect(mapStateToProps, null, null, {pure: false})(NavBar);

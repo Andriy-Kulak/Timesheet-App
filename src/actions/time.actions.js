@@ -1,12 +1,12 @@
 import axios from 'axios';
-import {FETCH_TIMESHEET, CREATE_TIMESHEET, FETCH_USER_DATA, ROOT_URL, FETCH_USERS, FETCH_TIME_DATA} from '../constants/time.constants';
+import {FETCH_TIMESHEET, CREATE_TIMESHEET, ROOT_URL, FETCH_TIME_DATA} from '../constants/time.constants';
 import {parseJwt} from '../actions/auth.actions';
 import {store} from '../index';
 
 const userToken = localStorage.getItem('token');
 const userInfo = parseJwt(userToken); // gets userID
 
-// updated API endpoints
+// Posting Timesheet Data
 export function createTimesheet(props) {
   const request = axios.post(ROOT_URL, props);
   return {
@@ -15,7 +15,7 @@ export function createTimesheet(props) {
   };
 }
 
-// for fetching specific timesheet data by user and week
+// Fetching specific timesheet data by user and week
 export function fetchTimehsheet(selectedWeek) {
   console.log('selectedWeek', selectedWeek);
   const request = axios.get(`${ROOT_URL}/${userInfo.sub}/${selectedWeek}`);
@@ -32,56 +32,6 @@ export function fetchTimesheetData() {
   return dispatch => {
     request.then(({data}) => {
       dispatch({type: FETCH_TIMESHEET, payload: data});
-    });
-  };
-}
-
-// // fetching timesheet data by user
-// export function fetchUserData(id) {
-//   const request = axios.get(`${ROOT_URL}/user/${id}`);
-//   return dispatch => {
-//     request.then(({data}) => {
-//       dispatch({type: FETCH_USER_DATA, payload: data});
-//     });
-//   };
-// }
-
-// fetching timesheet data by user
-export function fetchUserData(id) {
-  // if request is for all users, then return all users
-  if (id === 'all') {
-    const request = axios.get(`http://localhost:3090/api/v2/test`);
-    return dispatch => {
-      request.then(({data}) => {
-        dispatch({type: FETCH_USER_DATA, payload: data});
-      });
-    };
-  }
-
-  const request = axios.get(`http://localhost:3090/api/v2/test/${id}`);
-  return dispatch => {
-    request.then(({data}) => {
-      dispatch({type: FETCH_USER_DATA, payload: data});
-    });
-  };
-}
-
-// fetch userData
-export function fetchUsers() {
-  const request = axios.get(`http://localhost:3090/api/v2/users`);
-
-  request.then(({data}) => {
-    console.log('fetchUsers', data);
-    return store.dispatch({type: FETCH_USERS, payload: data});
-  });
-}
-
-// fetching timesheet data by user
-export function fetchAllData() {
-  const request = axios.get(`http://localhost:3090/api/v2/test/`);
-  return dispatch => {
-    request.then(({data}) => {
-      dispatch({type: FETCH_USER_DATA, payload: data});
     });
   };
 }

@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {fetchUserData} from '../actions/time.actions';
+import {fetchUserData} from '../actions/charts.actions';
 import {Table, Grid, Col, Row} from 'react-bootstrap';
 import moment from 'moment';
 
@@ -37,7 +37,7 @@ class UserData extends Component {
       <Grid>
         <Row>
           <Col mdOffset={2} md={8}>
-            {this.props.time[0] && <h3>Timesheet for: {this.props.time[0].userInfo.firstName} {this.props.time[0].userInfo.lastName}</h3>}
+
             <Table responsive bordered condensed hover>
               <thead>
                 <tr>

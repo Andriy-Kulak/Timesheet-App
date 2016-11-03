@@ -10,6 +10,10 @@ form a {
   width: 100px;
 }
 
+.sum-chart-width {
+  width: 70px;
+}
+
 .red-text {
   color: red;
 }
@@ -54,4 +58,13 @@ form a {
   border-color: rgba(134, 121, 121, 0.5);
   text-align: center;
   margin-bottom: 0px;
+}
+
+.active {
+  background-color: red !important;
+  color: green;
+}
+
+. react-navbar {
+  background-color: blue;
 }

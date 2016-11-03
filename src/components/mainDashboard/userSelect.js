@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {fetchUsers} from '../../actions/time.actions';
+import {fetchUsers} from '../../actions/charts.actions';
 import {Grid, Col, Row} from 'react-bootstrap';
 import 'react-select/dist/react-select.css';
 import Select from 'react-select';
@@ -27,7 +27,7 @@ class UserSelect extends Component {
     function logChange(val) {
       // pushes user to updated URL. the child components use this.props.id
       // to reference the specific user
-      browserHistory.push(`/test/${val.value}`);
+      browserHistory.push(`/chart/${val.value}`);
     }
 
     return (

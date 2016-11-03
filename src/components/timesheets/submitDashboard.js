@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {reduxForm, Field} from 'redux-form';
-import {createTimesheet} from '../actions/time.actions';
+import {createTimesheet} from '../../actions/time.actions';
 import moment from 'moment';
 import {Grid, Col, Row} from 'react-bootstrap';
 

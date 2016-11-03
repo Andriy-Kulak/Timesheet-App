@@ -1,46 +1,24 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {fetchUserData, fetchUsers} from '../../actions/time.actions';
-import {Table, Col, Row} from 'react-bootstrap';
+import {fetchUserData} from '../../actions/charts.actions';
 import moment from 'moment';
 const LineChart = require('react-chartjs').Line;
-import {parseJwt} from '../../actions/auth.actions';
 
-class UserTest extends Component {
+class ChartUi extends Component {
 
   componentDidMount() {
     console.log('render userTEs');
     this.props.fetchUserData(this.props.params.id);
-    fetchUsers();
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('nextProps', nextProps);
-    // console.log('nextProps', nextProps.params.user);
     if (nextProps.params.id !== this.props.params.id) {
-      console.log('pass');
+      console.log('nextProps.params.id', nextProps.params.id);
       this.props.fetchUserData(nextProps.params.id);
     }
   }
 
-  renderRows() {
-    return this.props.time.map(data => {
-      return (
-        <tr key={data._id}>
-          <td>{moment(data.weekOf).format('MM/DD/YYYY')}</td>
-          <td>{data.admin}</td>
-          <td>{data.dev}</td>
-          <td>{data.qa}</td>
-          <td>{data.rd}</td>
-          <td>{data.other}</td>
-        </tr>
-      );
-    });
-  }
-
   render() {
-    const userToken = localStorage.getItem('token');
-    const userInfo = parseJwt(userToken);
     const chartOptions = {
 
       // Boolean - Whether grid lines are shown across the chart
@@ -111,17 +89,9 @@ class UserTest extends Component {
         otherArray.push(obj.other);
         totalArray.push(obj.total);
         datesArray.push('Week of ' + moment(obj.weekOf).format('MM/DD/YYYY'));
-        // datesArray.push(moment(obj.dateWorked).format('MM/DD/YYY'));
         return obj;
       });
     }
-    // console.log('1', devArray);
-    // console.log('2', rdArray);
-    // console.log('3', qaArray);
-    // console.log('4', adminArray);
-    // console.log('5', otherArray);
-    // console.log('6', datesArray);
-    // console.log('6', totalArray);
 
     const chartData = {
       labels: datesArray,
@@ -194,46 +164,27 @@ class UserTest extends Component {
       <div>
         <h4>User Average Hours Spent Working at Pixel Intel Inc.</h4>
         <LineChart data={chartData} options={chartOptions} generateLegend width="600" height="250"/>
-        <Row>
-          <Col mdOffset={2} md={8}>
-            <Table responsive bordered condensed hover>
-              <thead>
-                <tr>
-                  <th>Week Of:</th>
-                  <th>Admin</th>
-                  <th>Dev Work</th>
-                  <th>QA</th>
-                  <th>R&D</th>
-                  <th>Other</th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.renderRows()}
-              </tbody>
-            </Table>
-          </Col>
-        </Row>
       </div>
     );
   }
 }
 
-UserTest.contextTypes = {
+ChartUi.contextTypes = {
   router: PropTypes.object
 };
 
 function mapStateToProps(state) {
+  console.log('state.sheets.allUsersInfo', state.sheets.user);
   return {
     time: state.sheets.user,
     userOptions: state.sheets.allUsersInfo
   };
 }
 
-UserTest.propTypes = {
+ChartUi.propTypes = {
   time: PropTypes.array,
   fetchUserData: PropTypes.func,
-  userOptions: PropTypes.array,
   params: PropTypes.object
 };
 
-export default connect(mapStateToProps, {fetchUserData})(UserTest);
+export default connect(mapStateToProps, {fetchUserData})(ChartUi);
