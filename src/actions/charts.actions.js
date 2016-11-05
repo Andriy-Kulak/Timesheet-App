@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {FETCH_TIMESHEET, FETCH_USER_DATA, ROOT_URL, FETCH_USERS} from '../constants/time.constants';
+import {FETCH_TIMESHEET, FETCH_USER_DATA, ROOT_URL, FETCH_USERS, CHART_URL} from '../constants/time.constants';
 import {store} from '../index';
 
 // fetching all of the available hours
@@ -16,7 +16,7 @@ export function fetchTimesheetData() {
 export function fetchUserData(id) {
   // if request is for all users, then return all users
   if (id === 'all') {
-    const request = axios.get(`http://localhost:3090/api/v2/test`);
+    const request = axios.get(CHART_URL);
     return dispatch => {
       request.then(({data}) => {
         dispatch({type: FETCH_USER_DATA, payload: data});
@@ -24,7 +24,7 @@ export function fetchUserData(id) {
     };
   }
 
-  const request = axios.get(`http://localhost:3090/api/v2/test/${id}`);
+  const request = axios.get(`${CHART_URL}/${id}`);
   return dispatch => {
     request.then(({data}) => {
       dispatch({type: FETCH_USER_DATA, payload: data});

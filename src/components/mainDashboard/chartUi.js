@@ -162,8 +162,7 @@ class ChartUi extends Component {
     console.log('outside props', this.props);
     return (
       <div>
-        <h4>User Average Hours Spent Working at Pixel Intel Inc.</h4>
-        <LineChart data={chartData} options={chartOptions} generateLegend width="600" height="250"/>
+        <LineChart data={chartData} options={chartOptions} generateLegend width="700" height="250"/>
       </div>
     );
   }

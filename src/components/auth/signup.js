@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {reduxForm, Field} from 'redux-form';
 import {signupUser} from '../../actions/auth.actions';
 import {connect} from 'react-redux';
-import {Grid, Col, Row} from 'react-bootstrap';
+import {Grid, Col, Row, Panel} from 'react-bootstrap';
 
 class Signup extends Component {
   handleFormSubmit(formProps) {
@@ -40,15 +40,17 @@ class Signup extends Component {
       <Grid>
         <Row>
           <Col mdOffset={4} md={4}>
-            <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-              <Field name="firstName" label="First Name" type="text" component={renderField}/>
-              <Field name="lastName" label="Last Name" type="text" component={renderField}/>
-              <Field name="email" label="Email" type="email" component={renderField}/>
-              <Field name="password" label="Password" type="password" component={renderField}/>
-              <Field name="passwordConfirm" label="Confirm Password" type="password" component={renderField}/>
-              {this.renderAlert()}
-              <button action="submit" className="btn btn-primary">Signup!</button>
-            </form>
+            <Panel header="Sign Up" bsStyle="info">
+              <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+                <Field name="firstName" label="First Name" type="text" component={renderField}/>
+                <Field name="lastName" label="Last Name" type="text" component={renderField}/>
+                <Field name="email" label="Email" type="email" component={renderField}/>
+                <Field name="password" label="Password" type="password" component={renderField}/>
+                <Field name="passwordConfirm" label="Confirm Password" type="password" component={renderField}/>
+                {this.renderAlert()}
+                <button action="submit" className="btn btn-primary">Sign Up!</button>
+              </form>
+            </Panel>
           </Col>
         </Row>
       </Grid>

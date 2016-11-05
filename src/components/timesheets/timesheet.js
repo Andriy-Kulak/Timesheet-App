@@ -1,22 +1,29 @@
 import React, {Component, PropTypes} from 'react';
-import {reduxForm, Field} from 'redux-form';
+import {reduxForm, Field, getFormValues} from 'redux-form';
 import {createTimesheet, fetchTimehsheet, convertToDateString, convertToDate} from '../../actions/time.actions';
 import {parseJwt} from '../../actions/auth.actions';
-import {Table, Grid, Col, Row} from 'react-bootstrap';
+import {Table, Panel} from 'react-bootstrap';
 import {connect} from 'react-redux';
 
 class Timesheet extends Component {
   componentDidMount() {
-    fetchTimehsheet(this.props.params.id);
+    const userToken = localStorage.getItem('token');
+    const userInfo = parseJwt(userToken); // gets userID
+    fetchTimehsheet(this.props.params.id, userInfo);
   }
 
   componentWillReceiveProps(nextProps) {
-    fetchTimehsheet(nextProps.params.id);
+    const userToken = localStorage.getItem('token');
+    const userInfo = parseJwt(userToken); // gets userID
+    fetchTimehsheet(nextProps.params.id, userInfo);
   }
 
   onSubmit(props) {
     const dayOne = this.props.params.id;
-
+    this.submitDisable = true;
+    setTimeout(() => {
+      this.submitDisable = false;
+    }, 1500);
     const userToken = localStorage.getItem('token');
     const userInfo = parseJwt(userToken);
 
@@ -38,7 +45,7 @@ class Timesheet extends Component {
       props.sat.dateWorked = convertToDate(dayOne, 5);
       props.sun.dateWorked = convertToDate(dayOne, 6);
     }
-
+    console.log('in component', props);
     createTimesheet(props);
   }
 
@@ -46,91 +53,85 @@ class Timesheet extends Component {
     // console.log('this.props.', this.props);
     console.log('this props in render', this.props);
     const pickedString = convertToDateString(this.props.params.id);
-    const {handleSubmit, reset} = this.props;
+    const {handleSubmit, reset, submitting} = this.props;
+
+    const title = (
+      <h4 className="header-panel"><b>Timesheet:</b> <i>for the week of {pickedString}</i></h4>
+    );
 
     return (
-      <div>
-        <Grid>
-          <Row>
-            <Col md={12}>
-
-              <h4><b>Timesheet:</b> <i>for the week of {pickedString}</i></h4>
-              <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
-
-                <Table responsive bordered condensed hover className="input-width" type="number">
-                  <thead>
-                    <tr>
-                      <th>Work Type</th>
-                      <th>Mon</th>
-                      <th>Tue</th>
-                      <th>Wed</th>
-                      <th>Thur</th>
-                      <th>Fri</th>
-                      <th>Sat</th>
-                      <th>Sun</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td><div className="workType-width">Client App Dev.</div></td>
-                      <td><Field name="mon.dev" type="number" component="input" className="input-width"/></td>
-                      <td><Field name="tue.dev" type="number" component="input" className="input-width"/></td>
-                      <td><Field name="wed.dev" type="number" component="input" className="input-width"/></td>
-                      <td><Field name="thur.dev" type="number" component="input" className="input-width"/></td>
-                      <td><Field name="fri.dev" type="number" component="input" className="input-width"/></td>
-                      <td><Field name="sat.dev" type="number" component="input" className="input-width"/></td>
-                      <td><Field name="sun.dev" type="number" component="input" className="input-width"/></td>
-                    </tr>
-                    <tr>
-                      <td><div className="workType-width">QA</div></td>
-                      <td><Field name="mon.qa" type="number" component="input" className="input-width"/></td>
-                      <td><Field name="tue.qa" type="number" component="input" className="input-width"/></td>
-                      <td><Field name="wed.qa" type="number" component="input" className="input-width"/></td>
-                      <td><Field name="thur.qa" type="number" component="input" className="input-width"/></td>
-                      <td><Field name="fri.qa" type="number" component="input" className="input-width"/></td>
-                      <td><Field name="sat.qa" type="number" component="input" className="input-width"/></td>
-                      <td><Field name="sun.qa" type="number" component="input" className="input-width"/></td>
-                    </tr>
-                    <tr>
-                      <td><div className="workType-width">Admin</div></td>
-                      <td><Field name="mon.admin" type="number" component="input" className="input-width"/></td>
-                      <td><Field name="tue.admin" type="number" component="input" className="input-width"/></td>
-                      <td><Field name="wed.admin" type="number" component="input" className="input-width"/></td>
-                      <td><Field name="thur.admin" type="number" component="input" className="input-width"/></td>
-                      <td><Field name="fri.admin" type="number" component="input" className="input-width"/></td>
-                      <td><Field name="sat.admin" type="number" component="input" className="input-width"/></td>
-                      <td><Field name="sun.admin" type="number" component="input" className="input-width"/></td>
-                    </tr>
-                    <tr>
-                      <td><div className="workType-width">R&D</div></td>
-                      <td><Field name="mon.rd" type="number" component="input" className="input-width"/></td>
-                      <td><Field name="tue.rd" type="number" component="input" className="input-width"/></td>
-                      <td><Field name="wed.rd" type="number" component="input" className="input-width"/></td>
-                      <td><Field name="thur.rd" type="number" component="input" className="input-width"/></td>
-                      <td><Field name="fri.rd" type="number" component="input" className="input-width"/></td>
-                      <td><Field name="sat.rd" type="number" component="input" className="input-width"/></td>
-                      <td><Field name="sun.rd" type="number" component="input" className="input-width"/></td>
-                    </tr>
-                    <tr>
-                      <td><div className="workType-width">Other</div></td>
-                      <td><Field name="mon.other" type="number" component="input" className="input-width"/></td>
-                      <td><Field name="tue.other" type="number" component="input" className="input-width"/></td>
-                      <td><Field name="wed.other" type="number" component="input" className="input-width"/></td>
-                      <td><Field name="thur.other" type="number" component="input" className="input-width"/></td>
-                      <td><Field name="fri.other" type="number" component="input" className="input-width"/></td>
-                      <td><Field name="sat.other" type="number" component="input" className="input-width"/></td>
-                      <td><Field name="sun.other" type="number" component="input" className="input-width"/></td>
-                    </tr>
-                  </tbody>
-                </Table>
-                <button type="submit" className="btn btn-primary">Submit</button>
-                <button type="button" className="btn btn-warning" onClick={reset}>Undo Changes</button>
-              </form>
-            </Col>
-          </Row>
-        </Grid>
-
-      </div>
+      <Panel header={title} bsStyle="info">
+        <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+          <Table responsive bordered condensed hover className="input-width" type="number">
+            <thead>
+              <tr>
+                <th>Work Type</th>
+                <th>Mon</th>
+                <th>Tue</th>
+                <th>Wed</th>
+                <th>Thur</th>
+                <th>Fri</th>
+                <th>Sat</th>
+                <th>Sun</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><div className="workType-width">Client App Dev.</div></td>
+                <td><Field name="mon.dev" type="number" component="input" required className="input-width"/></td>
+                <td><Field name="tue.dev" type="number" component="input" required className="input-width"/></td>
+                <td><Field name="wed.dev" type="number" component="input" required className="input-width"/></td>
+                <td><Field name="thur.dev" type="number" component="input" required className="input-width"/></td>
+                <td><Field name="fri.dev" type="number" component="input" required className="input-width"/></td>
+                <td><Field name="sat.dev" type="number" component="input" required className="input-width"/></td>
+                <td><Field name="sun.dev" type="number" component="input" required className="input-width"/></td>
+              </tr>
+              <tr>
+                <td><div className="workType-width">QA</div></td>
+                <td><Field name="mon.qa" type="number" component="input" required className="input-width"/></td>
+                <td><Field name="tue.qa" type="number" component="input" required className="input-width"/></td>
+                <td><Field name="wed.qa" type="number" component="input" required className="input-width"/></td>
+                <td><Field name="thur.qa" type="number" component="input" required className="input-width"/></td>
+                <td><Field name="fri.qa" type="number" component="input" required className="input-width"/></td>
+                <td><Field name="sat.qa" type="number" component="input" required className="input-width"/></td>
+                <td><Field name="sun.qa" type="number" component="input" required className="input-width"/></td>
+              </tr>
+              <tr>
+                <td><div className="workType-width">Admin</div></td>
+                <td><Field name="mon.admin" type="number" component="input" className="input-width"/></td>
+                <td><Field name="tue.admin" type="number" component="input" className="input-width"/></td>
+                <td><Field name="wed.admin" type="number" component="input" className="input-width"/></td>
+                <td><Field name="thur.admin" type="number" component="input" className="input-width"/></td>
+                <td><Field name="fri.admin" type="number" component="input" className="input-width"/></td>
+                <td><Field name="sat.admin" type="number" component="input" className="input-width"/></td>
+                <td><Field name="sun.admin" type="number" component="input" className="input-width"/></td>
+              </tr>
+              <tr>
+                <td><div className="workType-width">R&D</div></td>
+                <td><Field name="mon.rd" type="number" component="input" className="input-width"/></td>
+                <td><Field name="tue.rd" type="number" component="input" className="input-width"/></td>
+                <td><Field name="wed.rd" type="number" component="input" className="input-width"/></td>
+                <td><Field name="thur.rd" type="number" component="input" className="input-width"/></td>
+                <td><Field name="fri.rd" type="number" component="input" className="input-width"/></td>
+                <td><Field name="sat.rd" type="number" component="input" className="input-width"/></td>
+                <td><Field name="sun.rd" type="number" component="input" className="input-width"/></td>
+              </tr>
+              <tr>
+                <td><div className="workType-width">Other</div></td>
+                <td><Field name="mon.other" type="number" component="input" className="input-width"/></td>
+                <td><Field name="tue.other" type="number" component="input" className="input-width"/></td>
+                <td><Field name="wed.other" type="number" component="input" className="input-width"/></td>
+                <td><Field name="thur.other" type="number" component="input" className="input-width"/></td>
+                <td><Field name="fri.other" type="number" component="input" className="input-width"/></td>
+                <td><Field name="sat.other" type="number" component="input" className="input-width"/></td>
+                <td><Field name="sun.other" type="number" component="input" className="input-width"/></td>
+              </tr>
+            </tbody>
+          </Table>
+          <button type="submit" disabled={submitting} className="btn btn-primary">Submit</button>
+          <button type="button" className="btn btn-warning" onClick={reset}>Undo Changes</button>
+        </form>
+      </Panel>
     );
   }
 }
@@ -142,16 +143,19 @@ Timesheet.contextTypes = {
 Timesheet.propTypes = {
   handleSubmit: PropTypes.func,
   params: PropTypes.object,
-  reset: PropTypes.func
+  reset: PropTypes.func,
+  submitting: PropTypes.bool
 };
 
 // connect: first argument is mapStateToProps, 2nd is mapDispatchToProps
 // reduxForm: 1st is form config, 2nd is mapStateToProps, 3rd is mapDispatchToProps
 
 function mapStateToProps(state) {
+  console.log('test in state', getFormValues('TimesheetNewForm')(state));
   if ((state.sheets.data.length > 0)) { // wait until state.sheets.data has a value
     return {
       sheets: state.sheets.data,
+      values: getFormValues('TimesheetNewForm')(state),
       initialValues: {
         mon: state.sheets.data[0],
         tue: state.sheets.data[1],

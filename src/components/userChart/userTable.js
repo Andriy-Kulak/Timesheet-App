@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {fetchUserData} from '../../actions/charts.actions';
-import {Table, Col, Row} from 'react-bootstrap';
+import {Table, Col, Row, Panel} from 'react-bootstrap';
 import moment from 'moment';
 import {parseJwt} from '../../actions/auth.actions';
 
@@ -43,28 +43,33 @@ class UserTable extends Component {
     const userToken = localStorage.getItem('token');
     const userInfo = parseJwt(userToken);
 
+    const title = (
+      <h3 className="header-panel">Timesheet Summary for: <b>{userInfo.firstName} {userInfo.lastName}</b></h3>
+    );
+
     console.log('outside props', this.props);
     return (
       <div>
         <Row>
           <Col mdOffset={3} md={6}>
-            <h5>Timesheet Summary for: {userInfo.firstName} {userInfo.lastName}</h5>
-            <Table responsive bordered condensed hover>
-              <thead>
-                <tr>
-                  <th >Week Of:</th>
-                  <th className="sum-chart-width">Admin</th>
-                  <th className="sum-chart-width">Dev Work</th>
-                  <th className="sum-chart-width">QA</th>
-                  <th className="sum-chart-width">R&D</th>
-                  <th className="sum-chart-width">Other</th>
-                  <th className="sum-chart-width">Total</th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.renderRows()}
-              </tbody>
-            </Table>
+            <Panel header={title} bsStyle="info">
+              <Table responsive bordered condensed hover>
+                <thead>
+                  <tr>
+                    <th >Week Of:</th>
+                    <th className="sum-chart-width">Admin</th>
+                    <th className="sum-chart-width">Dev Work</th>
+                    <th className="sum-chart-width">QA</th>
+                    <th className="sum-chart-width">R&D</th>
+                    <th className="sum-chart-width">Other</th>
+                    <th className="sum-chart-width">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {this.renderRows()}
+                </tbody>
+              </Table>
+            </Panel>
           </Col>
         </Row>
       </div>

@@ -2,11 +2,11 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {fetchTimesheetData} from '../actions/time.actions';
 import {Link} from 'react-router';
-import {Table, Grid, Col, Row} from 'react-bootstrap';
+import {Table, Grid, Col, Row, Panel} from 'react-bootstrap';
 import moment from 'moment';
 
 class DashboardIndex extends Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.fetchTimesheetData();
   }
 
@@ -37,28 +37,34 @@ class DashboardIndex extends Component {
 
   render() {
     console.log('data', this.props.sheets);
+
+    const title = (
+      <h4 className="header-panel"><b>Timesheet App:</b> <i>All Entries</i></h4>
+    );
+
     return (
       <Grid>
         <Row>
           <Col mdOffset={2} md={8}>
-            <h3>Timesheet</h3>
-            <Table responsive bordered condensed hover>
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Name</th>
-                  <th>Date Worked</th>
-                  <th>Admin</th>
-                  <th>Dev Work</th>
-                  <th>QA</th>
-                  <th>R&D</th>
-                  <th>R&D</th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.renderRows()}
-              </tbody>
-            </Table>
+            <Panel header={title} bsStyle="info">
+              <Table responsive bordered condensed hover>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Date Worked</th>
+                    <th>Admin</th>
+                    <th>Dev Work</th>
+                    <th>QA</th>
+                    <th>R&D</th>
+                    <th>R&D</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {this.renderRows()}
+                </tbody>
+              </Table>
+            </Panel>
           </Col>
         </Row>
       </Grid>
@@ -72,7 +78,10 @@ DashboardIndex.propTypes = {
 };
 
 function mapStateToProps(state) {
-  return {sheets: state.sheets.all};
+  return {
+    sheets: state.sheets.all,
+    authenticated: state.auth.authenticated
+  };
 }
 
 export default connect(mapStateToProps, {fetchTimesheetData})(DashboardIndex);

@@ -14,6 +14,9 @@ form a {
   width: 70px;
 }
 
+.header-panel {
+  text-align: center;
+}
 .red-text {
   color: red;
 }

@@ -20,7 +20,7 @@ export default class Legend extends Component {
             </tr>
             <tr>
               <td className="green-color"/>
-              <td className="legend-text">Research & Dev</td>
+              <td className="legend-text">R & D</td>
             </tr>
             <tr>
               <td className="red-color"/>

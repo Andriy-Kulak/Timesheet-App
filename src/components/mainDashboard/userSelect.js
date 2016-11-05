@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {fetchUsers} from '../../actions/charts.actions';
-import {Grid, Col, Row} from 'react-bootstrap';
+import {Grid, Col, Row, Panel} from 'react-bootstrap';
 import 'react-select/dist/react-select.css';
 import Select from 'react-select';
 import {browserHistory} from 'react-router';
@@ -30,21 +30,33 @@ class UserSelect extends Component {
       browserHistory.push(`/chart/${val.value}`);
     }
 
+    const title = (
+      <h3 className="header-panel"><b>Analytics Dashboard: Average Weekly Hours by User</b></h3>
+    );
+
+    const title2 = (
+      <h3 className="header-panel"><b>Control Panel</b></h3>
+    );
+
     return (
       <Grid>
         <Row>
-          <Col md={2}>
-            <h4><u>Selected User:</u></h4>
-            <Select
-              name="form-field-name"
-              value={this.props.params.id}
-              options={options}
-              onChange={logChange}
-              />
-            <Legend/>
+          <Col mdOffset={1} md={2}>
+            <Panel header={title2} bsStyle="info">
+              <h5><u>Selected User:</u></h5>
+              <Select
+                name="form-field-name"
+                value={this.props.params.id}
+                options={options}
+                onChange={logChange}
+                />
+              <Legend/>
+            </Panel>
           </Col>
           <Col md={8}>
-            {this.props.children}
+            <Panel header={title} bsStyle="info">
+              {this.props.children}
+            </Panel>
           </Col>
         </Row>
       </Grid>

@@ -1,23 +1,22 @@
 import axios from 'axios';
 import {FETCH_TIMESHEET, CREATE_TIMESHEET, ROOT_URL, FETCH_TIME_DATA} from '../constants/time.constants';
-import {parseJwt} from '../actions/auth.actions';
 import {store} from '../index';
-
-const userToken = localStorage.getItem('token');
-const userInfo = parseJwt(userToken); // gets userID
+import {SubmissionError} from 'redux-form';
 
 // Posting Timesheet Data
 export function createTimesheet(props) {
   const request = axios.post(ROOT_URL, props);
-  return {
+  console.log('action pass', props);
+  return ({
     type: CREATE_TIMESHEET,
     payload: request
-  };
+  });
 }
 
 // Fetching specific timesheet data by user and week
-export function fetchTimehsheet(selectedWeek) {
+export function fetchTimehsheet(selectedWeek, userInfo) {
   console.log('selectedWeek', selectedWeek);
+  console.log('selectedUser fetch TimeSheet', userInfo);
   const request = axios.get(`${ROOT_URL}/${userInfo.sub}/${selectedWeek}`);
 
   request.then(({data}) => {
