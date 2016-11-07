@@ -22,7 +22,6 @@ class SubmitDashboard extends Component {
     }
 
     return (
-
       <Grid>
         <Row>
           <Col mdOffset={1} md={3}>
