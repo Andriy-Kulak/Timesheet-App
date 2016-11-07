@@ -1,29 +1,32 @@
 import React, {Component, PropTypes} from 'react';
-import {reduxForm, Field, getFormValues} from 'redux-form';
+import {reduxForm, Field, getFormValues, reset} from 'redux-form';
 import {createTimesheet, fetchTimehsheet, convertToDateString, convertToDate} from '../../actions/time.actions';
 import {parseJwt} from '../../actions/auth.actions';
 import {Table, Panel} from 'react-bootstrap';
 import {connect} from 'react-redux';
+import {store} from '../../index';
 
 class Timesheet extends Component {
   componentDidMount() {
     const userToken = localStorage.getItem('token');
     const userInfo = parseJwt(userToken); // gets userID
     fetchTimehsheet(this.props.params.id, userInfo);
+    // this.setState({sheets: 'test'});
   }
 
   componentWillReceiveProps(nextProps) {
-    const userToken = localStorage.getItem('token');
-    const userInfo = parseJwt(userToken); // gets userID
-    fetchTimehsheet(nextProps.params.id, userInfo);
+    console.log('next vs this', nextProps.params.id, this.props.params.id);
+    if (nextProps.params.id !== this.props.params.id) {
+      store.dispatch(reset('TimesheetNewForm'));
+      const userToken = localStorage.getItem('token');
+      const userInfo = parseJwt(userToken); // gets userID
+      fetchTimehsheet(nextProps.params.id, userInfo);
+      console.log('receive Props');
+    }
   }
 
   onSubmit(props) {
     const dayOne = this.props.params.id;
-    this.submitDisable = true;
-    setTimeout(() => {
-      this.submitDisable = false;
-    }, 1500);
     const userToken = localStorage.getItem('token');
     const userInfo = parseJwt(userToken);
 
@@ -51,16 +54,15 @@ class Timesheet extends Component {
 
   render() {
     // console.log('this.props.', this.props);
-    console.log('this props in render', this.props);
     const pickedString = convertToDateString(this.props.params.id);
     const {handleSubmit, reset, submitting} = this.props;
-
+    console.log('props', this.props);
     const title = (
       <h4 className="header-panel"><b>Timesheet:</b> <i>for the week of {pickedString}</i></h4>
     );
 
     return (
-      <Panel header={title} bsStyle="info">
+      <Panel key={this.props.params.id} header={title} bsStyle="info">
         <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
           <Table responsive bordered condensed hover className="input-width" type="number">
             <thead>
@@ -151,7 +153,7 @@ Timesheet.propTypes = {
 // reduxForm: 1st is form config, 2nd is mapStateToProps, 3rd is mapDispatchToProps
 
 function mapStateToProps(state) {
-  console.log('test in state', getFormValues('TimesheetNewForm')(state));
+  console.log('sheets data in state', state.sheets);
   if ((state.sheets.data.length > 0)) { // wait until state.sheets.data has a value
     return {
       sheets: state.sheets.data,

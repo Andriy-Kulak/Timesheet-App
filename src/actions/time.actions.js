@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {FETCH_TIMESHEET, CREATE_TIMESHEET, ROOT_URL, FETCH_TIME_DATA} from '../constants/time.constants';
 import {store} from '../index';
-import {SubmissionError} from 'redux-form';
+import {reset} from 'redux-form';
 
 // Posting Timesheet Data
 export function createTimesheet(props) {
@@ -15,12 +15,12 @@ export function createTimesheet(props) {
 
 // Fetching specific timesheet data by user and week
 export function fetchTimehsheet(selectedWeek, userInfo) {
-  console.log('selectedWeek', selectedWeek);
-  console.log('selectedUser fetch TimeSheet', userInfo);
+  // console.log('selectedWeek', selectedWeek);
+  // console.log('selectedUser fetch TimeSheet', userInfo);
   const request = axios.get(`${ROOT_URL}/${userInfo.sub}/${selectedWeek}`);
 
   request.then(({data}) => {
-    console.log('action data', data);
+    // console.log('action data', data);
     return store.dispatch({type: FETCH_TIME_DATA, payload: data});
   });
 }
@@ -30,6 +30,7 @@ export function fetchTimesheetData() {
   const request = axios.get(ROOT_URL);
   return dispatch => {
     request.then(({data}) => {
+      dispatch(reset('TimesheetNewForm'));
       dispatch({type: FETCH_TIMESHEET, payload: data});
     });
   };
