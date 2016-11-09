@@ -26,9 +26,9 @@ exports.getChartByUser = function (req, res, next) {
         other: {$sum: '$other'},
         rd: {$sum: '$rd'},
         total: {$sum: {$add: ['$rd', '$other', '$admin', '$qa', '$dev']}}
-        }
+      }
       },
-      {"$sort": {weekOf: 1}}
+      {$sort: {weekOf: 1}}
   ], function (err, data) {
     if (err) {
       return next(err);
@@ -66,7 +66,7 @@ exports.getAllAverage = function (req, res, next) {
     {$group: {
       _id: {
         week: {$week: '$dayWorked'},
-        year: { $year: '$dayWorked'}},
+        year: {$year: '$dayWorked'}},
       weekOf: {$min: {$add: ['$dayWorked', 24 * 60 * 60 * 1000]}},
       docCount: {$sum: 1},
       dev: {$sum: '$dev'},
@@ -75,11 +75,13 @@ exports.getAllAverage = function (req, res, next) {
       other: {$sum: '$other'},
       rd: {$sum: '$rd'},
       total: {$sum: {$add: ['$rd', '$other', '$admin', '$qa', '$dev']}}
-      }
+    }
     },
-    {"$sort": {weekOf: 1}}
-  ], function(err, data) {
-        if (err) return next(err);
-        res.json(data);
-      });
-}
+    {$sort: {weekOf: 1}}
+  ], function (err, data) {
+    if (err) {
+      return next(err);
+    }
+    res.json(data);
+  });
+};

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-let TimesheetSchema2 = new mongoose.Schema({
+const TimesheetSchema2 = new mongoose.Schema({
   dateWorked: Date,
   qa: Number,
   dev: Number,
